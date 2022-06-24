@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { PostContainer, PostCon } from './style';
 
 const PostCard = ({ post }) => {
-  const { me } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const id = useSelector((state) => state.user.me?.id);
   const { mainPosts } = useSelector((state) => state.post);
   return (
     <PostCon>
@@ -13,8 +15,8 @@ const PostCard = ({ post }) => {
           <img /> {/* post.image */}
         </div>
         <div className="post-content">
-          <span className="post-title">test</span>
-          <p className="post-writing">dd</p>
+          <span className="post-title">{post?.title}</span>
+          <p className="post-writing">{post?.content}</p>
           <div className="tag-container">
             <div className="tag">리액트</div>
           </div>
@@ -22,6 +24,17 @@ const PostCard = ({ post }) => {
       </PostContainer>
     </PostCon>
   );
+};
+
+PostCard.propTypes = {
+  post: PropTypes.shape({
+    id: PropTypes.number,
+    User: PropTypes.object,
+    content: PropTypes.string,
+    title: PropTypes.string,
+    createdAt: PropTypes.object,
+    Images: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
 };
 
 export default PostCard;

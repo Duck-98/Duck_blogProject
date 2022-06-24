@@ -1,9 +1,8 @@
-
 import React from 'react';
 import PostCard from '../../components/post/PostCard';
 import PostTag from '../../components/post/PostTag';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Container = styled.div`
   display: flex;
@@ -19,23 +18,23 @@ const Container = styled.div`
   }
 `;
 
-
 const Blog = () => {
+  const dispatch = useDispatch();
   const { mainPosts } = useSelector((state) => state.post);
   return (
     <Container>
       <div className="tag">
-        <PostTag />
+        <PostTag post={mainPosts.post} />
       </div>
       <div className="list">
         <PostCard />
-        {mainPosts.map((post => (
+        {mainPosts.map((post) => (
           <PostCard key={post.id} post={post} />
-        )))}
+        ))}
       </div>
-        <div>
-<span></span>
-        </div>
+      <div>
+        <span></span>
+      </div>
     </Container>
   );
 };

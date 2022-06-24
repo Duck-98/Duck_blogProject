@@ -17,9 +17,11 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import tableMergedCell from '@toast-ui/editor-plugin-table-merged-cell';
 import uml from '@toast-ui/editor-plugin-uml';
 import '@toast-ui/chart/dist/toastui-chart.css';
+
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_POST_REQUEST } from '../../reducers/post';
+import Router, { useRouter } from 'next/router';
 import { Button, TitleCon } from './style';
 
 const PostWrite = () => {
@@ -28,6 +30,7 @@ const PostWrite = () => {
   const [markdown, setMarkdown] = useState(``);
   const [title, setTitle] = useState('');
   const inputRef = useRef();
+  const router = useRouter();
   // image Upload 막기
   /* useEffect(() => {
     inputRef.current.getInstance().removeHook('addImageBlobHook');
@@ -45,16 +48,19 @@ const PostWrite = () => {
     console.log('----markdown---');
     console.log(getContent_md);
     setMarkdown(getContent_md);
-    const getContent_html = editorInstance.getHTML();
-    console.log('----markdown---');
-    console.log(getContent_html);
+    const postContent = editorInstance.getHTML();
+    console.log('----html---');
+    console.log(postContent);
     console.log(title);
+    /*
     formData.append('title', title);
-    formData.append('content', markdown);
-    return dispatch({
+    formData.append('content', postContent);
+    */
+    dispatch({
       type: ADD_POST_REQUEST,
-      data: formData,
+      data: { content: getContent_md, title: title },
     });
+    /*return router.push('/posts/blog');*/
   };
   const onChange = (e) => {
     e.preventDefault();
@@ -79,7 +85,7 @@ const PostWrite = () => {
         height="600px"
         initialEditType="markdown"
         ref={inputRef}
-       /* hooks={{
+        /* hooks={{
           addImageBlobHook: async (blob, callback) => {
             console.log(blob); // File {name: '카레유.png', ... }
 

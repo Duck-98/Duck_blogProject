@@ -44,7 +44,8 @@ function* addPost(action) {
     yield put({
       type: ADD_POST_SUCCESS,
       data: {
-        content: action.data,
+        title: action.data.title,
+        content: action.data.content,
       },
     });
   } catch (err) {

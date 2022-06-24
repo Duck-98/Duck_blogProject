@@ -8,8 +8,11 @@ import { Viewer } from '@toast-ui/react-editor';
 
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import { useSelector } from 'react-redux';
 
 const test = `# markdown`;
-const PostView = () => <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={test} />;
-
+const PostView = () => {
+  const a = 1;
+  return <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={test} />;
+};
 export default PostView;

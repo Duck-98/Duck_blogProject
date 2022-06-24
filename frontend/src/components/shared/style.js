@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const HeaderStyle = styled.header`
   position: fixed;
@@ -82,7 +82,7 @@ export const NavbarBox = styled.div`
   display: flex;
   flex-direction: column;
   @media screen and (max-width: 768px) {
-    display: ${({ open }) => (open === false ? "none" : "flex")};
+    display: ${({ open }) => (open === false ? 'none' : 'flex')};
   }
 `;
 
@@ -96,6 +96,9 @@ export const Foot = styled.footer`
     padding-top: 50px;
     align-items: center;
     justify-content: space-between;
+    .container {
+      display: flex;
+    }
     div {
       display: flex;
       flex-direction: column;
