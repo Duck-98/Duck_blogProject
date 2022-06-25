@@ -1,7 +1,8 @@
 /* eslint-disable no-fallthrough */
 /* eslint-disable default-param-last */
+import shortId from 'shortid';
 import produce from 'immer';
-
+import faker from 'faker';
 export const initialState = {
   mainPosts: [
     {
@@ -12,6 +13,11 @@ export const initialState = {
       },
       title: '게시글입니다 테스트',
       content: '게시글 왜 안돼 #리액트',
+      Images: [
+        {
+          src: 'url',
+        },
+      ],
     },
     {
       id: 1,
@@ -21,6 +27,11 @@ export const initialState = {
       },
       title: '게시글 제목 테스트',
       content: '게시글 테스트 #리액트',
+      Images: [
+        {
+          src: 'url',
+        },
+      ],
     },
     {
       id: 2,
@@ -30,6 +41,11 @@ export const initialState = {
       },
       title: '제발 되라',
       content: '제발되라 #리액트',
+      Images: [
+        {
+          src: 'url',
+        },
+      ],
     },
   ],
   imagePaths: [],
@@ -51,15 +67,40 @@ export const initialState = {
   loadPostsError: null,
 };
 
-const dummyPost = {
-  id: 2,
+export const generateDummyPost = (number) =>
+  Array(number)
+    .fill()
+    .map(() => ({
+      id: shortId.generate(),
+      User: {
+        id: shortId.generate(),
+        nickname: faker.name.findName(),
+      },
+      title: faker.lorem.sentence(),
+      content: faker.lorem.paragraph(),
+      Images: [
+        {
+          src: faker.image.image(),
+        },
+      ],
+    }));
+
+initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
+
+const dummyPost = (data) => ({
+  id: shortId.generate(),
   User: {
     id: 1,
     nickname: 'duck1',
   },
-  title: '게시글 제목 테스트222',
-  content: '게시글 테스트 #리액트2222',
-};
+  title: data.title,
+  content: data.content,
+  Images: [
+    {
+      src: data.imageSrc,
+    },
+  ],
+});
 
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
@@ -110,8 +151,9 @@ const reducer = (state = initialState, action) =>
       case ADD_POST_SUCCESS:
         draft.addPostLoading = false;
         draft.addPostDone = true;
-        draft.mainPosts.unshift(action.data);
+        draft.mainPosts.unshift(dummyPost(action.data));
         draft.imagePaths = [];
+        console.log(action.data);
         break;
       case ADD_POST_FAILURE:
         draft.addPostLoading = false;

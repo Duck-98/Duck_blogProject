@@ -10,6 +10,7 @@ const Container = styled.div`
   flex-wrap: wrap;
   padding-top: 7rem;
   justify-content: center;
+  margin-left: 100px;
 `;
 
 const BlogWrite = () => (

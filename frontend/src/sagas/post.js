@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { all, delay, fork, put, takeLatest, throttle, call } from 'redux-saga/effects';
+import shortId from 'shortid';
 import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
+  generateDummyPost,
   LOAD_HASHTAG_POSTS_FAILURE,
   LOAD_HASHTAG_POSTS_SUCCESS,
   LOAD_POST_FAILURE,
@@ -21,9 +23,17 @@ function loadPostAPI(lastId) {
 function* loadPost(action) {
   try {
     // const result = yield call(loadPostAPI, action.lastId);
+    yield delay(1000);
+    const id = shortId.generate();
     yield put({
       type: LOAD_POST_SUCCESS,
-      data: result.data,
+      data: generateDummyPost(10),
+
+      /* {
+        id,
+        title: action.data.title,
+        content: action.data.content,
+      } */
     });
   } catch (err) {
     yield put({

@@ -32,9 +32,9 @@ const PostWrite = () => {
   const inputRef = useRef();
   const router = useRouter();
   // image Upload 막기
-  /* useEffect(() => {
+  useEffect(() => {
     inputRef.current.getInstance().removeHook('addImageBlobHook');
-  }, []); */
+  }, []);
 
   const handleAddText = (e) => {
     if (!title || !title.trim()) {
@@ -85,21 +85,25 @@ const PostWrite = () => {
         height="600px"
         initialEditType="markdown"
         ref={inputRef}
-        /* hooks={{
+        hooks={{
           addImageBlobHook: async (blob, callback) => {
-            console.log(blob); // File {name: '카레유.png', ... }
+            const url = await uploadImage(blob);
+            callback(url, 'alt text');
+            return false;
+          },
+        }}
+      />
+      <Button onClick={handleAddText}>글 올리기</Button>
+    </>
+  );
+};
+/*
+  console.log(blob); // File {name: '카레유.png', ... }
 
             // 1. 첨부된 이미지 파일을 서버로 전송후, 이미지 경로 url을 받아온다.
             // const imgUrl = await .... 서버 전송 / 경로 수신 코드 ...
 
             // 2. 첨부된 이미지를 화면에 표시(경로는 임의로 넣었다.)
             callback(/*'http://localhost:5000/img/카레유.png', '카레유';
-          },
-        }}  */
-      />
-      <Button onClick={handleAddText}>글 올리기</Button>
-    </>
-  );
-};
-
+*/
 export default PostWrite;

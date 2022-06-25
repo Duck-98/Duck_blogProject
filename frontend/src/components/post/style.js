@@ -119,4 +119,9 @@ export const TitleCon = styled.div`
 
 export const PostCon = styled(Container)`
   flex-direction: column;
+  background: var(--bg-element1);
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px;
+  transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
+  overflow: hidden;
 `;
