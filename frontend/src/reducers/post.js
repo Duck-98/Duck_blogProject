@@ -136,8 +136,8 @@ const reducer = (state = initialState, action) =>
         console.log(action.data);
         draft.loadPostLoading = false;
         draft.loadPostDone = true;
-        draft.mainPosts = draft.mainPosts.concat(dummyPost(action.data));
-        draft.hasMorePost = action.data.length === 10;
+        draft.mainPosts = action.data.concat(draft.mainPosts);
+        draft.hasMorePost = draft.mainPosts.length < 50;
         break;
       case LOAD_POST_FAILURE:
         draft.loadPostLoading = false;
@@ -190,7 +190,7 @@ const reducer = (state = initialState, action) =>
         break;
       case REMOVE_IMAGE:
         draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
-
+      /*
       case LOAD_HASHTAG_POSTS_REQUEST:
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
@@ -206,6 +206,7 @@ const reducer = (state = initialState, action) =>
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error;
         break;
+*/
       default:
         break;
     }

@@ -20,48 +20,78 @@ import '@toast-ui/chart/dist/toastui-chart.css';
 
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_POST_REQUEST } from '../../reducers/post';
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post';
 import Router, { useRouter } from 'next/router';
 import { Button, TitleCon } from './style';
 
 const PostWrite = () => {
-  const { addPostDone } = useSelector((state) => state.post);
+  const { addPostDone, imagePaths } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const [markdown, setMarkdown] = useState(``);
   const [title, setTitle] = useState('');
   const inputRef = useRef();
   const router = useRouter();
+
+  // 대표 이미지 업로드
+  const imageInput = useRef();
+  const onChangeImages = useCallback((e) => {
+    console.log('images', e.target.files); // 선택한 파일 정보
+    const imageFormData = new FormData(); // 멀티파트 형식으로 서버로 전송.
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append('image', f);
+    });
+    dispatch({
+      type: UPLOAD_IMAGES_REQUEST,
+      data: imageFormData,
+    });
+  });
+  const onRemoveImage = useCallback((index) => () => {
+    dispatch({
+      // 이미지 삭제
+      type: REMOVE_IMAGE,
+      data: index,
+    });
+  });
+  const onClickImageUpload = useCallback(() => {
+    imageInput.current.click();
+  }, [imageInput.current]);
   // image Upload 막기
   useEffect(() => {
     inputRef.current.getInstance().removeHook('addImageBlobHook');
   }, []);
 
-  const handleAddText = (e) => {
-    if (!title || !title.trim()) {
-      return alert('제목을 입력해주세요.');
-    }
-    const formData = new FormData();
-
-    e.preventDefault();
-    const editorInstance = inputRef.current.getInstance();
-    const getContent_md = editorInstance.getMarkdown();
-    console.log('----markdown---');
-    console.log(getContent_md);
-    setMarkdown(getContent_md);
-    const postContent = editorInstance.getHTML();
-    console.log('----html---');
-    console.log(postContent);
-    console.log(title);
-    /*
+  const handleAddText = useCallback(
+    (e) => {
+      if (!title || !title.trim()) {
+        return alert('제목을 입력해주세요.');
+      }
+      // 대표 이미지 업로드 코드
+      const formData = new FormData();
+      imagePaths.forEach((p) => {
+        formData.append('image', p);
+      }); // image 파일 정보를 서버로 전달
+      e.preventDefault();
+      const editorInstance = inputRef.current.getInstance();
+      const getContent_md = editorInstance.getMarkdown();
+      console.log('----markdown---');
+      console.log(getContent_md);
+      setMarkdown(getContent_md);
+      const postContent = editorInstance.getHTML();
+      console.log('----html---');
+      console.log(postContent);
+      console.log(title);
+      /*
     formData.append('title', title);
     formData.append('content', postContent);
     */
-    dispatch({
-      type: ADD_POST_REQUEST,
-      data: { content: getContent_md, title: title },
-    });
-    /*return router.push('/posts/blog');*/
-  };
+      dispatch({
+        type: ADD_POST_REQUEST,
+        data: { content: getContent_md, title: title, formData },
+      });
+      /*return router.push('/posts/blog');*/
+    },
+    [title, imagePaths],
+  );
   const onChange = (e) => {
     e.preventDefault();
     setTitle(e.target.value);
@@ -93,7 +123,23 @@ const PostWrite = () => {
           },
         }}
       />
+      <div>
+        {imagePaths.map((v, i) => (
+          <div key={v}>
+            <img // // map함수 안에 데이터를 넣고 싶으면 고차함수로 만들어야함(index)
+              src={images[v].src} // 이미지 파일이 백엔드 서버에 있기 때문에 직접 백엔드 서버의 경로를 써줌. `http://localhost:3065/${v}`
+              style={{ width: '200px' }}
+              alt={v}
+            />
+            <div>
+              <Button onClick={onRemoveImage(i)}>제거</Button>
+            </div>
+          </div>
+        ))}
+      </div>
       <Button onClick={handleAddText}>글 올리기</Button>
+      <Button onClick={onClickImageUpload}>대표 이미지 업로드</Button>
+      <input className="image-cover" type="file" ref={imageInput} name="image" onChange={onChangeImages} />
     </>
   );
 };

@@ -10,7 +10,8 @@ export const Container = styled.div`
 export const Tag = styled.div`
   display: flex;
   flex-direction: column;
-  width: 40%;
+  width: 100%;
+  padding-left: 50px;
   .btn {
     border-radius: 10px;
     border: none;

@@ -8,9 +8,13 @@ import { LOAD_POST_REQUEST } from '../../reducers/post';
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+
   .tag {
+    display: flex;
     width: 20%;
+    .tag-con {
+      position: fixed;
+    }
   }
   .list {
     display: flex;
@@ -22,17 +26,18 @@ const Container = styled.div`
 
 const Blog = () => {
   const dispatch = useDispatch();
-  const { mainPosts, hasMorePost } = useSelector((state) => state.post);
+  const { mainPosts, hasMorePost, loadPostLoading } = useSelector((state) => state.post);
+
   useEffect(() => {
     dispatch({
       type: LOAD_POST_REQUEST,
     });
   }, []);
+
   useEffect(() => {
     const onScroll = () => {
-      console.log(window.scrollY, document.documentElement.clientHeight, document.documentElement.scrollHeight);
-      if (window.scrollY + document.documentElement.clientHeight === document.documentElement.scrollHeight) {
-        if (hasMorePost) {
+      if (window.scrollY + document.documentElement.clientHeight === document.documentElement.scrollHeight - 300) {
+        if (hasMorePost && !loadPostLoading) {
           dispatch({
             type: LOAD_POST_REQUEST,
           });
@@ -48,12 +53,14 @@ const Blog = () => {
   return (
     <Container>
       <div className="tag">
-        <PostTag post={mainPosts.post} />
+        <div className="tag-con">
+          <PostTag post={mainPosts.post} />
+        </div>
       </div>
       <div className="list">
         {mainPosts.map((post) => (
           <div className="item-con">
-            <PostCard key={post.id} post={post} />
+            <PostCard key={post.id} post={post} images={post.Images} />
           </div>
         ))}
       </div>
