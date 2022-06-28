@@ -20,45 +20,18 @@ import '@toast-ui/chart/dist/toastui-chart.css';
 
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post';
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from '../../reducers/post';
 import Router, { useRouter } from 'next/router';
-import { Button, TitleCon } from './style';
+import { Button, TitleCon, ImageCon } from './style';
 
 const PostWrite = () => {
   const { addPostDone, imagePaths } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const [markdown, setMarkdown] = useState(``);
   const [title, setTitle] = useState('');
+  const [fileImage, setFileImage] = useState('');
   const inputRef = useRef();
   const router = useRouter();
-
-  // 대표 이미지 업로드
-  const imageInput = useRef();
-  const onChangeImages = useCallback((e) => {
-    console.log('images', e.target.files); // 선택한 파일 정보
-    const imageFormData = new FormData(); // 멀티파트 형식으로 서버로 전송.
-    [].forEach.call(e.target.files, (f) => {
-      imageFormData.append('image', f);
-    });
-    dispatch({
-      type: UPLOAD_IMAGES_REQUEST,
-      data: imageFormData,
-    });
-  });
-  const onRemoveImage = useCallback((index) => () => {
-    dispatch({
-      // 이미지 삭제
-      type: REMOVE_IMAGE,
-      data: index,
-    });
-  });
-  const onClickImageUpload = useCallback(() => {
-    imageInput.current.click();
-  }, [imageInput.current]);
-  // image Upload 막기
-  useEffect(() => {
-    inputRef.current.getInstance().removeHook('addImageBlobHook');
-  }, []);
 
   const handleAddText = useCallback(
     (e) => {
@@ -80,6 +53,7 @@ const PostWrite = () => {
       console.log('----html---');
       console.log(postContent);
       console.log(title);
+      console.log(formData);
       /*
     formData.append('title', title);
     formData.append('content', postContent);
@@ -92,54 +66,99 @@ const PostWrite = () => {
     },
     [title, imagePaths],
   );
+
+  // 대표 이미지 업로드
+  const imageInput = useRef();
+  const onChangeImages = useCallback((e) => {
+    console.log('images', e.target.files); // 선택한 파일 정보
+    setFileImage(URL.createObjectURL(e.target.files[0]));
+    const imageFormData = new FormData(); // 멀티파트 형식으로 서버로 전송.
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append('image', f);
+    });
+    dispatch({
+      type: UPLOAD_IMAGES_REQUEST,
+      data: imageFormData,
+    });
+  });
+  const onRemoveImage = useCallback((index) => () => {
+    URL.revokeObjectURL(fileImage);
+    setFileImage('');
+    dispatch({
+      // 이미지 삭제
+      type: REMOVE_IMAGE,
+      data: index,
+    });
+  });
+  const onClickImageUpload = useCallback(() => {
+    imageInput.current.click();
+  }, [imageInput.current]);
+
+  // image Upload 막기
+  useEffect(() => {
+    inputRef.current.getInstance().removeHook('addImageBlobHook');
+  }, []);
+
   const onChange = (e) => {
     e.preventDefault();
     setTitle(e.target.value);
   };
   return (
     <>
-      <TitleCon>
-        <input
-          className="title"
-          placeholder="제목을 입력해주세요"
-          onChange={onChange}
-          onClick={handleAddText}
-          value={title}
+      <form encType="multipart/form-data" onSubmit={handleAddText}>
+        <TitleCon>
+          <input
+            className="title"
+            placeholder="제목을 입력해주세요"
+            onChange={onChange}
+            onClick={handleAddText}
+            value={title}
+          />
+          <span>내용</span>
+        </TitleCon>
+        <Editor
+          plugins={[codeSyntaxHighlight, tableMergedCell, uml, chart, colorSyntax]}
+          placeholder="내용을 입력해주세요."
+          previewStyle="vertical"
+          height="600px"
+          initialEditType="markdown"
+          ref={inputRef}
+          hooks={{
+            addImageBlobHook: async (blob, callback) => {
+              const url = await uploadImage(blob);
+              callback(url, 'alt text');
+              return false;
+            },
+          }}
         />
-        <span>내용</span>
-      </TitleCon>
-      <Editor
-        plugins={[codeSyntaxHighlight, tableMergedCell, uml, chart, colorSyntax]}
-        placeholder="내용을 입력해주세요."
-        previewStyle="vertical"
-        height="600px"
-        initialEditType="markdown"
-        ref={inputRef}
-        hooks={{
-          addImageBlobHook: async (blob, callback) => {
-            const url = await uploadImage(blob);
-            callback(url, 'alt text');
-            return false;
-          },
-        }}
-      />
-      <div>
-        {imagePaths.map((v, i) => (
-          <div key={v}>
-            <img // // map함수 안에 데이터를 넣고 싶으면 고차함수로 만들어야함(index)
-              src={images[v].src} // 이미지 파일이 백엔드 서버에 있기 때문에 직접 백엔드 서버의 경로를 써줌. `http://localhost:3065/${v}`
-              style={{ width: '200px' }}
-              alt={v}
-            />
-            <div>
-              <Button onClick={onRemoveImage(i)}>제거</Button>
-            </div>
+        <input className="image-cover" hidden type="file" ref={imageInput} name="image" onChange={onChangeImages} />
+        <ImageCon>
+          <div className="button-con">
+            <Button>글 올리기</Button>
+            <Button type="button" onClick={onClickImageUpload}>
+              썸네일 업로드
+            </Button>
+            <Button type="button" onClick={onRemoveImage}>
+              썸네일 제거
+            </Button>
           </div>
-        ))}
-      </div>
-      <Button onClick={handleAddText}>글 올리기</Button>
-      <Button onClick={onClickImageUpload}>대표 이미지 업로드</Button>
-      <input className="image-cover" type="file" ref={imageInput} name="image" onChange={onChangeImages} />
+          <div className="img-box">
+            <span>썸네일 미리보기</span>
+            {fileImage && <img alt="sample" src={fileImage} />}
+          </div>
+        </ImageCon>
+        <div>
+          {imagePaths.map((v, i) => (
+            <div key={v}>
+              <img // // map함수 안에 데이터를 넣고 싶으면 고차함수로 만들어야함(index)
+                src={images[v].src} // 이미지 파일이 백엔드 서버에 있기 때문에 직접 백엔드 서버의 경로를 써줌. `http://localhost:3065/${v}`
+                style={{ width: '200px' }}
+                alt={v}
+              />
+            </div>
+          ))}
+        </div>
+      </form>
     </>
   );
 };

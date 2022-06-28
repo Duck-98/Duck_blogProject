@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import PostImages from './PostImages';
 import { useSelector, useDispatch } from 'react-redux';
 import { PostContainer, PostCon } from './style';
 
-const PostCard = ({ post, images }) => {
+const PostCard = ({ post }) => {
   const dispatch = useDispatch();
   const id = useSelector((state) => state.user.me?.id);
   const { mainPosts } = useSelector((state) => state.post);
@@ -12,7 +13,7 @@ const PostCard = ({ post, images }) => {
     <PostCon>
       <PostContainer>
         <div className="post-img">
-          <img src={images[0]} />
+          <PostImages images={post.Images} />
         </div>
         <div className="post-content">
           <span className="post-title">{post?.title}</span>

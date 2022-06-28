@@ -48,8 +48,8 @@ export const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 20px;
+  cursor: pointer;
   .post-img {
-    border: 1px solid black;
     width: 500px;
     height: 300px;
   }
@@ -125,4 +125,24 @@ export const PostCon = styled(Container)`
   box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px;
   transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
   overflow: hidden;
+  &:hover {
+    transform: translateY(-10px);
+  }
+`;
+
+export const ImageCon = styled.div`
+  display: flex;
+  .button-con {
+    display: flex;
+    flex-direction: column;
+  }
+  .img-box {
+    padding-top: 1rem;
+    padding-left: 10rem;
+    display: flex;
+    flex-direction: column;
+    span {
+      font-weight: bold;
+    }
+  }
 `;
