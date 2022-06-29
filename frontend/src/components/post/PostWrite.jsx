@@ -22,43 +22,51 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from '../../reducers/post';
 import Router, { useRouter } from 'next/router';
-import { Button, TitleCon, ImageCon } from './style';
+import { Button, TitleCon, ImageCon, TagInput } from './style';
 
 const PostWrite = () => {
   const { addPostDone, imagePaths } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const [markdown, setMarkdown] = useState(``);
   const [title, setTitle] = useState('');
+  const [tag, setTag] = useState('');
   const [fileImage, setFileImage] = useState('');
   const inputRef = useRef();
-  const router = useRouter();
+
+  useEffect(() => {
+    if (addPostDone) {
+      Router.replace('/posts/blog');
+    }
+  }, [addPostDone]); // 게시글 쓰기가 완료되면 메인홈페이지로 이동
 
   const handleAddText = useCallback(
     (e) => {
-      if (!title || !title.trim() & !postContent || !postContent.trim()) {
+      e.preventDefault();
+      if (!title || !title.trim()) {
         return alert('제목을 입력해주세요.');
       }
+
       // 대표 이미지 업로드 코드
-      e.preventDefault();
       const formData = new FormData();
       const editorInstance = inputRef.current.getInstance();
       const getContent_md = editorInstance.getMarkdown();
       /* console.log('----markdown---');
       console.log(getContent_md);
       setMarkdown(getContent_md); */
-      const postContent = editorInstance.getHTML();
+      const content = editorInstance.getHTML();
       /*  console.log('----html---');
       console.log(postContent);
       console.log(title); */
 
       formData.append('title', title);
-      formData.append('content', postContent);
+      formData.append('content', content);
+      formData.append('tag', tag);
       imagePaths.forEach((p) => {
         formData.append('image', p);
       }); // image 파일 정보를 서버로 전달
-      /* for (let value of formData.values()) {
-      console.log(value);
-    } */
+      for (let value of formData.values()) {
+        console.log(value);
+      }
       dispatch({
         type: ADD_POST_REQUEST,
         data: formData,
@@ -104,6 +112,10 @@ const PostWrite = () => {
     e.preventDefault();
     setTitle(e.target.value);
   };
+  const onChangeTags = (e) => {
+    e.preventDefault();
+    setTag(e.target.value);
+  };
   return (
     <>
       <form encType="multipart/form-data" onSubmit={handleAddText}>
@@ -133,6 +145,12 @@ const PostWrite = () => {
           }}*/
         />
         <input className="image-cover" hidden type="file" ref={imageInput} name="image" onChange={onChangeImages} />
+        <TagInput
+          placeholder="태그를 입력해주세요. ex) #리액트 #리덕스"
+          onChange={onChangeTags}
+          onClick={handleAddText}
+          value={tag}
+        />
         <ImageCon>
           <div className="button-con">
             <Button>글 올리기</Button>

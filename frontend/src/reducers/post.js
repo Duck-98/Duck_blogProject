@@ -13,6 +13,7 @@ export const initialState = {
       },
       title: '게시글입니다 테스트',
       content: '게시글 왜 안돼 #리액트',
+      tag: '#리액트',
       Images: [
         {
           src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
@@ -33,6 +34,7 @@ export const initialState = {
       },
       title: '게시글 제목 테스트',
       content: '게시글 테스트 #리액트',
+      tag: '#리액트',
       Images: [
         {
           src: 'url',
@@ -47,6 +49,7 @@ export const initialState = {
       },
       title: '제발 되라',
       content: '제발되라 #리액트',
+      tag: '#리액트',
       Images: [
         {
           src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
@@ -90,6 +93,7 @@ export const generateDummyPost = (number) =>
       },
       title: faker.lorem.sentence(),
       content: faker.lorem.paragraph(),
+      tag: '#태그',
       Images: [
         {
           src: faker.image.image(),
@@ -107,6 +111,7 @@ const dummyPost = (data) => ({
   },
   title: data.title,
   content: data.content,
+  tag: data.tag,
   Images: [
     {
       src: data.imageSrc,

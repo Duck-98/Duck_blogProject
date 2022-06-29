@@ -146,3 +146,16 @@ export const ImageCon = styled.div`
     }
   }
 `;
+
+export const TagInput = styled.input`
+  width: 500px;
+  height: 50px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  background-color: ${(props) => props.theme.BACKGROUND_COLOR};
+  color: ${(props) => props.theme.LINE_WHITE_COLOR};
+  &::placeholder {
+    color: ${(props) => props.theme.LINE_WHITE_COLOR};
+  }
+`;

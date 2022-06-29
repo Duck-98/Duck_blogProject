@@ -19,7 +19,7 @@ const PostCard = ({ post }) => {
           <span className="post-title">{post?.title}</span>
           <p className="post-writing">{post?.content}</p>
           <div className="tag-container">
-            <div className="tag">리액트</div>
+            <div className="tag">{post?.tag}</div>
           </div>
         </div>
       </PostContainer>
@@ -33,6 +33,7 @@ PostCard.propTypes = {
     User: PropTypes.object,
     content: PropTypes.string,
     title: PropTypes.string,
+    tag: PropTypes.string,
     createdAt: PropTypes.object,
     Images: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,

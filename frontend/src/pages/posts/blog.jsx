@@ -24,7 +24,7 @@ const Container = styled.div`
   }
 `;
 
-const Blog = () => {
+const Blog = ({ post }) => {
   const dispatch = useDispatch();
   const { mainPosts, hasMorePost, loadPostLoading } = useSelector((state) => state.post);
 
@@ -54,7 +54,7 @@ const Blog = () => {
     <Container>
       <div className="tag">
         <div className="tag-con">
-          <PostTag post={mainPosts.post} />
+          <PostTag post={post} />
         </div>
       </div>
       <div className="list">
@@ -64,9 +64,7 @@ const Blog = () => {
           </div>
         ))}
       </div>
-      <div>
-        <span></span>
-      </div>
+      <div></div>
     </Container>
   );
 };
