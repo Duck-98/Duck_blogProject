@@ -1,10 +1,28 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
+import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Container, Form, Error } from './style';
 import { useDispatch, useSelector } from 'react-redux';
 import { SIGN_UP_REQUEST } from '../../reducers/user';
 const Register = () => {
   const dispatch = useDispatch();
+  const { signUpLoading, signUpDone, signUpError, me } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (me && me.id) {
+      Router.replace('/');
+    }
+  }, [me && me.id]);
+  useEffect(() => {
+    if (signUpDone) {
+      Router.replace('/login');
+    }
+  }, [signUpDone]); // 회원가입이 완료되면 메인홈페이지로 이동
+  useEffect(() => {
+    if (signUpError) {
+      alert(signUpError);
+    }
+  }, [signUpError]); // 오류 발생시 오류 경고창  띄우기
   const {
     register,
     handleSubmit,
@@ -81,7 +99,7 @@ const Register = () => {
               errors.passwordCheck.type === 'validate' &&
               '비밀번호와 비밀번호 확인이 같지 않습니다.'}
           </Error>
-          <input className="submit" type="submit" value="회원가입" />
+          <input className="submit" type="submit" value="회원가입" loading={signUpLoading} />
         </Form>
       </div>
     </Container>

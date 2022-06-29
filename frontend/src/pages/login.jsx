@@ -1,17 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
+import Router from 'next/router';
 import { useForm } from 'react-hook-form';
 import { LoginContainer, LoginForm, Error } from './register/style';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { loginRequestAction } from '../reducers/user';
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const { logInLoading, logInError, logInDone, me } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (logInError) {
+      alert(logInError);
+    }
+  }, [logInError]);
+  useEffect(() => {
+    if (logInDone) {
+      Router.replace('/');
+    }
+  }, [logInDone]); // 로그인이 완료되면 메인홈페이지로 이동
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(loginRequestAction(data));
   };
   return (
     <LoginContainer>
@@ -36,7 +51,7 @@ const Register = () => {
           />
           <Error>{errors.email && errors.email.type === 'pattern' && '메일 형식으로 입력해주세요.'}</Error>
           <Error>{errors.password?.message}</Error>
-          <input className="submit" type="submit" value="로그인" />
+          <input className="submit" type="submit" value="로그인" loading={logInLoading} />
         </LoginForm>
         <Link href="/register">
           <label className="register">회원가입</label>
