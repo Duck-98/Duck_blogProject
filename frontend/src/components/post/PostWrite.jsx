@@ -35,32 +35,30 @@ const PostWrite = () => {
 
   const handleAddText = useCallback(
     (e) => {
-      if (!title || !title.trim()) {
-        return alert('제목을 입력해주세요.');
+      if (!title || !title.trim() & !postContent || !postContent.trim()) {
+        return alert('제목과 내용을 입력해주세요.');
       }
       // 대표 이미지 업로드 코드
+      e.preventDefault();
       const formData = new FormData();
+      const editorInstance = inputRef.current.getInstance();
+      const getContent_md = editorInstance.getMarkdown();
+      /* console.log('----markdown---');
+      console.log(getContent_md);
+      setMarkdown(getContent_md); */
+      const postContent = editorInstance.getHTML();
+      /*  console.log('----html---');
+      console.log(postContent);
+      console.log(title); */
+
+      formData.append('title', title);
+      formData.append('content', postContent);
       imagePaths.forEach((p) => {
         formData.append('image', p);
       }); // image 파일 정보를 서버로 전달
-      e.preventDefault();
-      const editorInstance = inputRef.current.getInstance();
-      const getContent_md = editorInstance.getMarkdown();
-      console.log('----markdown---');
-      console.log(getContent_md);
-      setMarkdown(getContent_md);
-      const postContent = editorInstance.getHTML();
-      console.log('----html---');
-      console.log(postContent);
-      console.log(title);
-      console.log(formData);
-      /*
-    formData.append('title', title);
-    formData.append('content', postContent);
-    */
       dispatch({
         type: ADD_POST_REQUEST,
-        data: { content: getContent_md, title: title, formData },
+        data: formData,
       });
       /*return router.push('/posts/blog');*/
     },
@@ -93,12 +91,12 @@ const PostWrite = () => {
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, [imageInput.current]);
-
+  /*
   // image Upload 막기
   useEffect(() => {
     inputRef.current.getInstance().removeHook('addImageBlobHook');
   }, []);
-
+*/
   const onChange = (e) => {
     e.preventDefault();
     setTitle(e.target.value);
@@ -123,13 +121,13 @@ const PostWrite = () => {
           height="600px"
           initialEditType="markdown"
           ref={inputRef}
-          hooks={{
+          /*hooks={{
             addImageBlobHook: async (blob, callback) => {
               const url = await uploadImage(blob);
               callback(url, 'alt text');
               return false;
             },
-          }}
+          }}*/
         />
         <input className="image-cover" hidden type="file" ref={imageInput} name="image" onChange={onChangeImages} />
         <ImageCon>
@@ -149,12 +147,15 @@ const PostWrite = () => {
         </ImageCon>
         <div>
           {imagePaths.map((v, i) => (
-            <div key={v}>
+            <div key={v} style={{ display: 'inline-block' }}>
               <img // // map함수 안에 데이터를 넣고 싶으면 고차함수로 만들어야함(index)
-                src={images[v].src} // 이미지 파일이 백엔드 서버에 있기 때문에 직접 백엔드 서버의 경로를 써줌. `http://localhost:3065/${v}`
+                src={`http://localhost:3065/${v}`} // 이미지 파일이 백엔드 서버에 있기 때문에 직접 백엔드 서버의 경로를 써줌.
                 style={{ width: '200px' }}
                 alt={v}
               />
+              <div>
+                <Button onClick={onRemoveImage(i)}>제거</Button>
+              </div>
             </div>
           ))}
         </div>
