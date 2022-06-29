@@ -1,5 +1,5 @@
-import { all, fork, put, takeLatest, delay, call } from "redux-saga/effects";
-import axios from "axios";
+import { all, fork, put, takeLatest, delay, call } from 'redux-saga/effects';
+import axios from 'axios';
 import {
   LOG_IN_FAILURE,
   LOG_IN_REQUEST,
@@ -10,18 +10,19 @@ import {
   SIGN_UP_REQUEST,
   LOG_OUT_FAILURE,
   LOG_OUT_SUCCESS,
-} from "../reducers/user";
+} from '../reducers/user';
 
 function logInAPI(data) {
-  return axios.post("/user/login", data);
+  return axios.post('/user/login', data);
 }
 
 function* logIn(action) {
   try {
     // const result = yield call(logInAPI, action.data);
+    console.log('saga login');
     yield put({
       type: LOG_IN_SUCCESS,
-      // data: result.data,
+      data: action.data,
     });
   } catch (err) {
     console.error(err);
@@ -33,7 +34,7 @@ function* logIn(action) {
 }
 
 function logOutAPI() {
-  return axios.post("/user/logout");
+  return axios.post('/user/logout');
 }
 
 function* logOut() {
@@ -41,27 +42,28 @@ function* logOut() {
     // const result = yield call(logOutAPI);
     yield delay(1000);
     yield put({
-      type: "LOG_OUT_SUCCESS",
+      type: LOG_OUT_SUCCESS,
       // data: result.data,
     });
   } catch (err) {
     yield put({
-      type: "LOG_OUT_FAILURE",
+      type: LOG_OUT_FAILURE,
       data: err.response.data,
     });
   }
 }
 
 function signUpAPI(data) {
-  return axios.post("/user", data);
+  return axios.post('/user', data);
   // axios를 이용한 회원가입 요청
   // data -> email,password,nickname을 갖고있는 객체
 }
 
-function* signUp(action) {
+function* signUp() {
   try {
-    const result = yield call(signUpAPI, action.data);
-    console.log(result);
+    //const result = yield call(signUpAPI, action.data);
+    // console.log(result);
+    yield delay(1000);
     yield put({
       type: SIGN_UP_SUCCESS,
     });

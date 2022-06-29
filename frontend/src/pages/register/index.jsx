@@ -1,20 +1,28 @@
-import React, { useRef } from 'react';
-import { useForm, appendErrors } from 'react-hook-form';
+import React, { useRef, useCallback } from 'react';
+import { useForm } from 'react-hook-form';
 import { Container, Form, Error } from './style';
-
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { SIGN_UP_REQUEST } from '../../reducers/user';
 const Register = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
   } = useForm();
-  const onSubmit = (data) => {
+
+  const onSubmit = useCallback((data) => {
+    dispatch({
+      // SIGN_UP_REQUEST 액션
+      type: SIGN_UP_REQUEST,
+      data: data,
+    });
+  });
+  /*const onSubmit = (data) => {
     console.log(data);
-  };
-  const passwordRef = useRef<string | null>(null);
+  };*/
+  const passwordRef = useRef(null);
   passwordRef.current = watch('password');
   return (
     <Container>

@@ -36,7 +36,7 @@ const PostWrite = () => {
   const handleAddText = useCallback(
     (e) => {
       if (!title || !title.trim() & !postContent || !postContent.trim()) {
-        return alert('제목과 내용을 입력해주세요.');
+        return alert('제목을 입력해주세요.');
       }
       // 대표 이미지 업로드 코드
       e.preventDefault();
@@ -56,6 +56,9 @@ const PostWrite = () => {
       imagePaths.forEach((p) => {
         formData.append('image', p);
       }); // image 파일 정보를 서버로 전달
+      /* for (let value of formData.values()) {
+      console.log(value);
+    } */
       dispatch({
         type: ADD_POST_REQUEST,
         data: formData,
