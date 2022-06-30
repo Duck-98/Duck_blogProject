@@ -48,7 +48,7 @@ export const initialState = {
         nickname: 'duck',
       },
       title: '제발 되라',
-      content: '제발되라 #리액트',
+      content: '## 제발되라',
       tag: '#리액트',
       Images: [
         {

@@ -15,9 +15,7 @@ const PostTag = ({ post }) => {
         <span className="tag-title"> 태그 리스트 </span>
         <div className="tag-container">
           <ul className="tag-content">
-            {mainPosts.map((post) => (
-              <PostCardTag key={post.tag} post={post.tag} />
-            ))}
+            <PostCardTag key={post} post={post} />
           </ul>
         </div>
         <div className="btn-container">

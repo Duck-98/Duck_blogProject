@@ -12,6 +12,7 @@ export const Tag = styled.div`
   flex-direction: column;
   width: 100%;
   padding-left: 50px;
+  margin-top: 10rem;
   .btn {
     border-radius: 10px;
     border: none;

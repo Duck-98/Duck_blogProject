@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PostCard from '../../components/post/PostCard';
 import PostTag from '../../components/post/PostTag';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOAD_POST_REQUEST } from '../../reducers/post';
+import { Tag } from '../../components/post/style';
+import PostCardTag from '../../components/post/PostCardTag';
 
 const Container = styled.div`
   display: flex;
@@ -27,7 +29,7 @@ const Container = styled.div`
 const Blog = ({ post }) => {
   const dispatch = useDispatch();
   const { mainPosts, hasMorePost, loadPostLoading } = useSelector((state) => state.post);
-
+  const { logInDone } = useSelector((state) => state.user);
   useEffect(() => {
     dispatch({
       type: LOAD_POST_REQUEST,
@@ -54,7 +56,30 @@ const Blog = ({ post }) => {
     <Container>
       <div className="tag">
         <div className="tag-con">
-          <PostTag post={post} />
+          <Tag>
+            <span className="tag-title"> 태그 리스트 </span>
+            <div className="tag-container">
+              <ul className="tag-content">
+                <PostCardTag post={post} />
+              </ul>
+            </div>
+            <div className="btn-container">
+              {logInDone ? (
+                <Link href="/posts/blogWrite">
+                  <button className="btn">글쓰기</button>
+                </Link>
+              ) : (
+                <button
+                  className="btn"
+                  onClick={() => {
+                    alert('로그인해주세요.');
+                  }}
+                >
+                  글쓰기
+                </button>
+              )}
+            </div>
+          </Tag>
         </div>
       </div>
       <div className="list">
@@ -64,7 +89,6 @@ const Blog = ({ post }) => {
           </div>
         ))}
       </div>
-      <div></div>
     </Container>
   );
 };

@@ -8,20 +8,42 @@ import { Viewer } from '@toast-ui/react-editor';
 
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { TitleCon } from './style';
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const test = `# markdown`;
-const PostView = () => {
+const PostView = ({ post }) => {
   const { mainPosts } = useSelector((state) => state.post);
 
   return (
     <>
       <TitleCon>
-        <span className="title">{mainPosts.title}</span>
+        <span className="title">{mainPosts[2].title}</span>
       </TitleCon>
-      <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={mainPosts.content} />
+      <Container>
+        <span className="tag">{mainPosts[2].tag}</span>
+        <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={mainPosts[2].content} />
+      </Container>
     </>
   );
 };
 export default PostView;
+
+PostView.propTypes = {
+  post: PropTypes.shape({
+    id: PropTypes.number,
+    User: PropTypes.object,
+    content: PropTypes.string,
+    title: PropTypes.string,
+    tag: PropTypes.string,
+    createdAt: PropTypes.object,
+    Images: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
+};
