@@ -12,10 +12,32 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { TitleCon } from './style';
+import moment from 'moment';
+import 'moment/locale/ko';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  align-items: center;
+  div {
+  }
+  .time {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 20px;
+    border-radius: 5px;
+    background-color: ${(props) => props.theme.BACKGROUND_COLOR};
+    font-size: 15px;
+    color: ${(props) => props.theme.LINE_WHITE_COLOR};
+    margin-bottom: 3rem;
+  }
 `;
 
 const test = `# markdown`;
@@ -25,11 +47,14 @@ const PostView = ({ post }) => {
   return (
     <>
       <TitleCon>
-        <span className="title">{mainPosts[2].title}</span>
+        <span className="title">{mainPosts[0].title}</span>
       </TitleCon>
       <Container>
-        <span className="tag">{mainPosts[2].tag}</span>
-        <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={mainPosts[2].content} />
+        <div>
+          <span className="time"> {moment(mainPosts.createdAt).calendar()}</span>
+          <span className="tag">{mainPosts[0].tag}</span>
+          <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={mainPosts[0].content} />
+        </div>
       </Container>
     </>
   );

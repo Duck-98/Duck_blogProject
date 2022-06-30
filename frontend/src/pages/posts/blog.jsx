@@ -3,7 +3,10 @@ import PostCard from '../../components/post/PostCard';
 import PostTag from '../../components/post/PostTag';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { LOAD_POST_REQUEST } from '../../reducers/post';
+import PropTypes from 'prop-types';
 import { Tag } from '../../components/post/style';
 import PostCardTag from '../../components/post/PostCardTag';
 
@@ -27,6 +30,7 @@ const Container = styled.div`
 `;
 
 const Blog = ({ post }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { mainPosts, hasMorePost, loadPostLoading } = useSelector((state) => state.post);
   const { logInDone } = useSelector((state) => state.user);
@@ -51,6 +55,18 @@ const Blog = ({ post }) => {
       window.removeEventListener('scroll', onScroll);
     };
   }, [hasMorePost]);
+
+  const onClick = (id) => {
+    router.push(
+      {
+        pathname: `/posts/${id}`,
+        query: {
+          id,
+        },
+      },
+      `/posts/${id}`,
+    );
+  };
 
   return (
     <Container>
@@ -84,13 +100,39 @@ const Blog = ({ post }) => {
       </div>
       <div className="list">
         {mainPosts.map((post) => (
-          <div className="item-con">
-            <PostCard key={post.id} post={post} images={post.Images} />
-          </div>
+          <Link
+            href={
+              ({
+                pathname: `/posts/${post.id}`,
+                query: {
+                  id: post.id,
+                },
+              },
+              `/posts/${post.id}`)
+            }
+            key={post.id}
+          >
+            <div className="item-con">
+              <PostCard key={post.id} post={post} images={post.Images} onClick={() => onClick(post.id)} />
+            </div>
+          </Link>
         ))}
       </div>
     </Container>
   );
+};
+
+PostCard.propTypes = {
+  post: PropTypes.shape({
+    id: PropTypes.number,
+    User: PropTypes.object,
+    UserId: PropTypes.number,
+    title: PropTypes.string,
+    content: PropTypes.string,
+    tag: PropTypes.string,
+    createdAt: PropTypes.string,
+    Images: PropTypes.arrayOf(PropTypes.any),
+  }).isRequired,
 };
 
 export default Blog;

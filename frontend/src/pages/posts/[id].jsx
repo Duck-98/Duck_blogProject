@@ -14,12 +14,10 @@ const Container = styled.div`
 `;
 const BlogView = () => {
   const router = useRouter();
-  const { id } = router.query;
 
   return (
     <Container>
       <PostView />
-      <div>{id}번 게시글</div>
     </Container>
   );
 };
