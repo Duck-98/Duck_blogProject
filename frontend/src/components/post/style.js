@@ -130,6 +130,22 @@ export const PostCon = styled(Container)`
   &:hover {
     transform: translateY(-10px);
   }
+  .remove-con {
+    padding-left: 30rem;
+    padding-bottom: 1rem;
+    button {
+      border: none;
+      border-radius: 5px;
+      background-color: ${(props) => props.theme.BACKGROUND_COLOR};
+      color: ${(props) => props.theme.LINE_WHITE_COLOR};
+      height: 20px;
+      width: 20px;
+      cursor: pointer;
+      &:hover {
+        background-color: ${(props) => props.theme.CURSOR_COLOR};
+      }
+    }
+  }
 `;
 
 export const ImageCon = styled.div`

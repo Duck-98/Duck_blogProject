@@ -32,13 +32,13 @@ const PostWrite = () => {
   const [tag, setTag] = useState('');
   const [fileImage, setFileImage] = useState('');
   const inputRef = useRef();
-
+  /*
   useEffect(() => {
     if (addPostDone) {
       Router.replace('/posts/blog');
     }
   }, [addPostDone]); // 게시글 쓰기가 완료되면 메인홈페이지로 이동
-
+*/
   const handleAddText = useCallback(
     (e) => {
       e.preventDefault();

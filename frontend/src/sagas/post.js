@@ -6,6 +6,7 @@ import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   generateDummyPost,
+  LOAD_HASHTAG_POSTS_REQUEST,
   LOAD_HASHTAG_POSTS_FAILURE,
   LOAD_HASHTAG_POSTS_SUCCESS,
   LOAD_POST_FAILURE,
@@ -50,11 +51,14 @@ function* addPost(action) {
   try {
     // const result = yield call(addPostAPI, action.data);
     yield delay(1000);
+    const id = shortId.generate();
     yield put({
       type: ADD_POST_SUCCESS,
       data: {
+        id,
         title: action.data.title,
         content: action.data.content,
+        tag: action.data.tag,
       },
     });
   } catch (err) {

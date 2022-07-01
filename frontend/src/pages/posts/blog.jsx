@@ -129,7 +129,7 @@ PostCard.propTypes = {
     title: PropTypes.string,
     content: PropTypes.string,
     tag: PropTypes.string,
-    createdAt: PropTypes.string,
+    createdAt: PropTypes.object,
     Images: PropTypes.arrayOf(PropTypes.any),
   }).isRequired,
 };
