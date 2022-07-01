@@ -90,7 +90,7 @@ function* removePost(action) {
     });
   }
 }
-/*
+
 function loadHashtagPostsAPI(data, lastId) {
   return axios.get(`/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
 }
@@ -111,7 +111,7 @@ function* loadHashtagPosts(action) {
     });
   }
 }
-*/
+
 function* watchLoadPost() {
   yield throttle(5000, LOAD_POST_REQUEST, loadPost);
 }
@@ -123,12 +123,11 @@ function* watchAddpost() {
 function* watchRemovePost() {
   yield throttle(5000, REMOVE_POST_REQUEST, removePost);
 }
-/*
+
 function* watchLoadHashtagPost() {
   yield throttle(5000, LOAD_POST_REQUEST, loadHashtagPosts);
 }
-fork(watchLoadHashtagPost)
-*/
+
 export default function* postSaga() {
-  yield all([fork(watchAddpost), fork(watchLoadPost), fork(watchRemovePost)]);
+  yield all([fork(watchAddpost), fork(watchLoadPost), fork(watchRemovePost), fork(watchLoadHashtagPost)]);
 }
