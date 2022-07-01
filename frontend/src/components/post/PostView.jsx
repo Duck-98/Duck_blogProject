@@ -40,8 +40,7 @@ const Container = styled.div`
   }
 `;
 
-const test = `# markdown`;
-const PostView = ({ post }) => {
+const PostView = () => {
   const { mainPosts } = useSelector((state) => state.post);
 
   return (

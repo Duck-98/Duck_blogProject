@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
 import PostCard from '../../components/post/PostCard';
-import PostTag from '../../components/post/PostTag';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';

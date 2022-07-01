@@ -71,6 +71,7 @@ export const PostContainer = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     padding-top: 1rem;
+    cursor: pointer;
     .tag {
       display: flex;
       align-items: center;

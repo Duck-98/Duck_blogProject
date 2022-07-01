@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import PostImages from './PostImages';
+import PostContentTag from './PostContentTag';
 import { useSelector, useDispatch } from 'react-redux';
 import { PostContainer, PostCon } from './style';
 
@@ -19,7 +20,7 @@ const PostCard = ({ post }) => {
           <span className="post-title">{post?.title}</span>
           <p className="post-writing">{post?.content}</p>
           <div className="tag-container">
-            <div className="tag">{post?.tag}</div>
+            <div className="tag">{<PostContentTag postData={post?.tag} />}</div>
           </div>
         </div>
       </PostContainer>
