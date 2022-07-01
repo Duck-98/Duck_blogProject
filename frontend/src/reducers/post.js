@@ -18,12 +18,6 @@ export const initialState = {
         {
           src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
         },
-        {
-          src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
-        },
-        {
-          src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
-        },
       ],
     },
     {
@@ -37,7 +31,7 @@ export const initialState = {
       tag: '#리액트',
       Images: [
         {
-          src: 'url',
+          src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
         },
       ],
     },
@@ -53,12 +47,6 @@ export const initialState = {
       Images: [
         {
           src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
-        },
-        {
-          src: 'https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg',
-        },
-        {
-          src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
         },
       ],
     },
@@ -81,7 +69,7 @@ export const initialState = {
   loadPostsDone: false,
   loadPostsError: null,
 };
-
+/*
 export const generateDummyPost = (number) =>
   Array(number)
     .fill()
@@ -104,7 +92,7 @@ export const generateDummyPost = (number) =>
 initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
 
 const dummyPost = (data) => ({
-  id: shortId.generate(),
+  id: data.id,
   User: {
     id: 1,
     nickname: 'duck1',
@@ -118,7 +106,7 @@ const dummyPost = (data) => ({
     },
   ],
 });
-
+*/
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
@@ -150,11 +138,10 @@ const reducer = (state = initialState, action) =>
         draft.loadPostError = null;
         break;
       case LOAD_POST_SUCCESS:
-        console.log(action.data);
         draft.loadPostLoading = false;
         draft.loadPostDone = true;
-        draft.mainPosts = action.data.concat(draft.mainPosts);
-        draft.hasMorePost = draft.mainPosts.length < 50;
+        draft.mainPosts = draft.mainPosts.concat(action.data);
+        draft.hasMorePost = action.data.length === 10;
         break;
       case LOAD_POST_FAILURE:
         draft.loadPostLoading = false;
@@ -168,9 +155,8 @@ const reducer = (state = initialState, action) =>
       case ADD_POST_SUCCESS:
         draft.addPostLoading = false;
         draft.addPostDone = true;
-        draft.mainPosts.unshift(dummyPost(action.data));
+        draft.mainPosts.unshift(action.data);
         draft.imagePaths = [];
-        console.log(action.data);
         break;
       case ADD_POST_FAILURE:
         draft.addPostLoading = false;
@@ -207,7 +193,6 @@ const reducer = (state = initialState, action) =>
         break;
       case REMOVE_IMAGE:
         draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
-      /*
       case LOAD_HASHTAG_POSTS_REQUEST:
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
@@ -223,7 +208,6 @@ const reducer = (state = initialState, action) =>
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error;
         break;
-*/
       default:
         break;
     }

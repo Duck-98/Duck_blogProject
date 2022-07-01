@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+/*import React, { useEffect, useCallback } from 'react';
 import PostCard from '../../components/post/PostCard';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
@@ -130,3 +130,4 @@ HashTag.propTypes = {
 };
 
 export default HashTag;
+*/

@@ -42,10 +42,10 @@ const PostWrite = () => {
   const handleAddText = useCallback(
     (e) => {
       e.preventDefault();
-      if (!title || !title.trim()) {
+      /*if (!title) {
         return alert('제목을 입력해주세요.');
       }
-
+      */
       // 대표 이미지 업로드 코드
       const formData = new FormData();
       const editorInstance = inputRef.current.getInstance();
@@ -73,7 +73,7 @@ const PostWrite = () => {
       });
       /*return router.push('/posts/blog');*/
     },
-    [title, imagePaths],
+    [imagePaths],
   );
 
   // 대표 이미지 업로드
@@ -108,14 +108,14 @@ const PostWrite = () => {
     inputRef.current.getInstance().removeHook('addImageBlobHook');
   }, []);
 */
-  const onChange = (e) => {
+  const onChange = useCallback((e) => {
     e.preventDefault();
     setTitle(e.target.value);
-  };
-  const onChangeTags = (e) => {
+  });
+  const onChangeTags = useCallback((e) => {
     e.preventDefault();
     setTag(e.target.value);
-  };
+  });
   return (
     <>
       <form encType="multipart/form-data" onSubmit={handleAddText}>
@@ -136,6 +136,7 @@ const PostWrite = () => {
           height="600px"
           initialEditType="markdown"
           ref={inputRef}
+          preventDefault
           /*hooks={{
             addImageBlobHook: async (blob, callback) => {
               const url = await uploadImage(blob);

@@ -5,8 +5,8 @@ const PostImages = ({ images }) => {
   return (
     <>
       <img
-        src={images[0].src}
-        alt={images[0].src}
+        src={images[0]?.src}
+        alt={images[0]?.src}
         style={{
           width: '495px',
           height: '295px',

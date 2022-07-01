@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { all, delay, fork, put, takeLatest, throttle, call } from 'redux-saga/effects';
-import shortId from 'shortid';
 import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
@@ -23,16 +22,16 @@ function loadPostAPI(lastId) {
 
 function* loadPost(action) {
   try {
-    // const result = yield call(loadPostAPI, action.lastId);
+    const result = yield call(loadPostAPI, action.lastId);
     yield delay(1000);
-    const id = shortId.generate();
     yield put({
       type: LOAD_POST_SUCCESS,
-      data: generateDummyPost(10),
+      data: result.data,
       /* {
         id,
         title: action.data.title,
         content: action.data.content,
+        tag: action.data.tag
       } */
     });
   } catch (err) {
@@ -42,55 +41,6 @@ function* loadPost(action) {
     });
   }
 }
-
-function addPostAPI(data) {
-  return axios.post('/api/post', data);
-}
-
-function* addPost(action) {
-  try {
-    // const result = yield call(addPostAPI, action.data);
-    yield delay(1000);
-    const id = shortId.generate();
-    yield put({
-      type: ADD_POST_SUCCESS,
-      data: {
-        id,
-        title: action.data.title,
-        content: action.data.content,
-        tag: action.data.tag,
-      },
-    });
-  } catch (err) {
-    console.error(err);
-    yield put({
-      type: ADD_POST_FAILURE,
-      data: err.response.data,
-    });
-  }
-}
-
-function removePostAPI(data) {
-  return axios.delete('/api/post', data);
-}
-
-function* removePost(action) {
-  try {
-    // const result = yield call(removePostAPI, action.data);
-    yield delay(1000);
-    yield put({
-      type: REMOVE_POST_SUCCESS,
-      data: action.data,
-    });
-  } catch (err) {
-    console.error(err);
-    yield put({
-      type: REMOVE_POST_FAILURE,
-      data: err.response.data,
-    });
-  }
-}
-
 function loadHashtagPostsAPI(data, lastId) {
   return axios.get(`/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
 }
@@ -112,6 +62,57 @@ function* loadHashtagPosts(action) {
   }
 }
 
+function addPostAPI(data) {
+  return axios.post('/post', data);
+}
+
+function* addPost(action) {
+  try {
+    const result = yield call(addPostAPI, action.data);
+    yield put({
+      type: ADD_POST_SUCCESS,
+      data: {
+        title: result.data.title,
+        content: result.data.content,
+        tag: result.data.tag,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: ADD_POST_FAILURE,
+      data: err.response.data,
+    });
+  }
+}
+
+function removePostAPI(data) {
+  return axios.delete(`/post/${data}`, data, {
+    withCredentials: true,
+  });
+}
+
+function* removePost(action) {
+  try {
+    const result = yield call(removePostAPI, action.data);
+    yield delay(1000);
+    yield put({
+      type: REMOVE_POST_SUCCESS,
+      data: result.data,
+    });
+    yield put({
+      type: REMOVE_POST_OF_ME,
+      data: action.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: REMOVE_POST_FAILURE,
+      data: err.response.data,
+    });
+  }
+}
+
 function* watchLoadPost() {
   yield throttle(5000, LOAD_POST_REQUEST, loadPost);
 }
@@ -125,7 +126,7 @@ function* watchRemovePost() {
 }
 
 function* watchLoadHashtagPost() {
-  yield throttle(5000, LOAD_POST_REQUEST, loadHashtagPosts);
+  yield throttle(5000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
 }
 
 export default function* postSaga() {
