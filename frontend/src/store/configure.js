@@ -1,19 +1,19 @@
 /* eslint-disable import/no-duplicates */
-import { legacy_createStore as createStore } from "redux";
-import { applyMiddleware, compose } from "redux";
-import createSagaMiddleware from "redux-saga";
-import { createWrapper } from "next-redux-wrapper";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { legacy_createStore as createStore } from 'redux';
+import { applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { createWrapper } from 'next-redux-wrapper';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-import reducer from "../reducers";
-import rootSaga from "../sagas";
+import reducer from '../reducers';
+import rootSaga from '../sagas';
 
 const configureStore = (context) => {
   console.log(context);
   const sagaMiddleware = createSagaMiddleware();
   const middlewares = [sagaMiddleware];
   const enhancer =
-    process.env.NODE_ENV === "production"
+    process.env.NODE_ENV === 'production'
       ? compose(applyMiddleware(...middlewares))
       : composeWithDevTools(applyMiddleware(...middlewares));
   const store = createStore(reducer, enhancer);
@@ -22,7 +22,7 @@ const configureStore = (context) => {
 };
 
 const wrapper = createWrapper(configureStore, {
-  debug: process.env.NODE_ENV === "development",
+  debug: process.env.NODE_ENV === 'development',
 });
 
 export default wrapper;

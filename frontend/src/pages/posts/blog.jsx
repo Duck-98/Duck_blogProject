@@ -12,7 +12,6 @@ import PostCardTag from '../../components/post/PostCardTag';
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-
   .tag {
     display: flex;
     width: 20%;
@@ -21,9 +20,11 @@ const Container = styled.div`
     }
   }
   .list {
+    margin-bottom: 700px;
     display: flex;
     flex-wrap: wrap;
     width: 1200px;
+
     justify-content: space-around;
   }
 `;
@@ -33,22 +34,19 @@ const Blog = ({ post }) => {
   const dispatch = useDispatch();
   const { mainPosts, hasMorePost, loadPostLoading } = useSelector((state) => state.post);
   const { logInDone } = useSelector((state) => state.user);
-  useEffect(() => {
-    dispatch({
-      type: LOAD_POST_REQUEST,
-    });
-  }, []);
 
   useEffect(() => {
-    const onScroll = () => {
-      if (window.scrollY + document.documentElement.clientHeight === document.documentElement.scrollHeight - 300) {
+    function onScroll() {
+      if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
         if (hasMorePost && !loadPostLoading) {
+          const lastId = mainPosts[mainPosts.length - 1]?.id;
           dispatch({
             type: LOAD_POST_REQUEST,
+            lastId,
           });
         }
       }
-    };
+    }
     window.addEventListener('scroll', onScroll);
     return () => {
       window.removeEventListener('scroll', onScroll);

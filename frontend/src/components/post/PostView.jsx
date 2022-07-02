@@ -40,7 +40,7 @@ const Container = styled.div`
   }
 `;
 
-const PostView = () => {
+const PostView = ({ post }) => {
   const { mainPosts } = useSelector((state) => state.post);
 
   return (
@@ -50,7 +50,7 @@ const PostView = () => {
       </TitleCon>
       <Container>
         <div>
-          <span className="time"> {moment(mainPosts.createdAt).calendar()}</span>
+          <span className="time"> {moment(mainPosts[0].createdAt).calendar()}</span>
           <span className="tag">{mainPosts[0].tag}</span>
           <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={mainPosts[0].content} />
         </div>

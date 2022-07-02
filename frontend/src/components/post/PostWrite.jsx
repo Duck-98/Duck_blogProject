@@ -39,24 +39,22 @@ const PostWrite = () => {
     }
   }, [addPostDone]); // 게시글 쓰기가 완료되면 메인홈페이지로 이동
 */
+  const onChangeTags = (e) => {
+    e.preventDefault();
+    setTag(e.target.value);
+  };
+  const onChange = (e) => {
+    e.preventDefault();
+    setTitle(e.target.value);
+  };
   const handleAddText = useCallback(
     (e) => {
       e.preventDefault();
-      /*if (!title) {
-        return alert('제목을 입력해주세요.');
-      }
-      */
       // 대표 이미지 업로드 코드
       const formData = new FormData();
       const editorInstance = inputRef.current.getInstance();
       const getContent_md = editorInstance.getMarkdown();
-      /* console.log('----markdown---');
-      console.log(getContent_md);
-      setMarkdown(getContent_md); */
       const content = editorInstance.getHTML();
-      /*  console.log('----html---');
-      console.log(postContent);
-      console.log(title); */
 
       formData.append('title', title);
       formData.append('content', content);
@@ -80,7 +78,7 @@ const PostWrite = () => {
   const imageInput = useRef();
   const onChangeImages = useCallback((e) => {
     console.log('images', e.target.files); // 선택한 파일 정보
-    setFileImage(URL.createObjectURL(e.target.files[0]));
+    //setFileImage(URL.createObjectURL(e.target.files[0]));
     const imageFormData = new FormData(); // 멀티파트 형식으로 서버로 전송.
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append('image', f);
@@ -91,8 +89,8 @@ const PostWrite = () => {
     });
   });
   const onRemoveImage = useCallback((index) => () => {
-    URL.revokeObjectURL(fileImage);
-    setFileImage('');
+    // URL.revokeObjectURL(fileImage);
+    //setFileImage('');
     dispatch({
       // 이미지 삭제
       type: REMOVE_IMAGE,
@@ -108,25 +106,12 @@ const PostWrite = () => {
     inputRef.current.getInstance().removeHook('addImageBlobHook');
   }, []);
 */
-  const onChange = useCallback((e) => {
-    e.preventDefault();
-    setTitle(e.target.value);
-  });
-  const onChangeTags = useCallback((e) => {
-    e.preventDefault();
-    setTag(e.target.value);
-  });
+
   return (
     <>
       <form encType="multipart/form-data" onSubmit={handleAddText}>
         <TitleCon>
-          <input
-            className="title"
-            placeholder="제목을 입력해주세요"
-            onChange={onChange}
-            onClick={handleAddText}
-            value={title}
-          />
+          <input className="title" placeholder="제목을 입력해주세요" onChange={onChange} value={title} />
           <span>내용</span>
         </TitleCon>
         <Editor
@@ -146,15 +131,10 @@ const PostWrite = () => {
           }}*/
         />
         <input className="image-cover" hidden type="file" ref={imageInput} name="image" onChange={onChangeImages} />
-        <TagInput
-          placeholder="태그를 입력해주세요. ex) #리액트 #리덕스"
-          onChange={onChangeTags}
-          onClick={handleAddText}
-          value={tag}
-        />
+        <TagInput placeholder="태그를 입력해주세요. ex) #리액트 #리덕스" onChange={onChangeTags} value={tag} />
         <ImageCon>
           <div className="button-con">
-            <Button>글 올리기</Button>
+            <Button type="submit">글 올리기</Button>
             <Button type="button" onClick={onClickImageUpload}>
               썸네일 업로드
             </Button>
@@ -164,23 +144,21 @@ const PostWrite = () => {
           </div>
           <div className="img-box">
             <span>썸네일 미리보기</span>
-            {fileImage && <img alt="sample" src={fileImage} />}
+            {imagePaths.map((v, i) => (
+              <div key={v} style={{ display: 'inline-block' }}>
+                <img // // map함수 안에 데이터를 넣고 싶으면 고차함수로 만들어야함(index)
+                  src={`http://localhost:3065/${v}`} // 이미지 파일이 백엔드 서버에 있기 때문에 직접 백엔드 서버의 경로를 써줌.
+                  style={{ width: '200px' }}
+                  alt={v}
+                />
+                <div>
+                  <Button onClick={onRemoveImage(i)}>제거</Button>
+                </div>
+              </div>
+            ))}
           </div>
         </ImageCon>
-        <div>
-          {imagePaths.map((v, i) => (
-            <div key={v} style={{ display: 'inline-block' }}>
-              <img // // map함수 안에 데이터를 넣고 싶으면 고차함수로 만들어야함(index)
-                src={`http://localhost:3065/${v}`} // 이미지 파일이 백엔드 서버에 있기 때문에 직접 백엔드 서버의 경로를 써줌.
-                style={{ width: '200px' }}
-                alt={v}
-              />
-              <div>
-                <Button onClick={onRemoveImage(i)}>제거</Button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <div></div>
       </form>
     </>
   );

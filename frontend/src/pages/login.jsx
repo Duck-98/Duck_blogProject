@@ -51,7 +51,7 @@ const Register = () => {
           />
           <Error>{errors.email && errors.email.type === 'pattern' && '메일 형식으로 입력해주세요.'}</Error>
           <Error>{errors.password?.message}</Error>
-          <input className="submit" type="submit" value="로그인" loading={logInLoading} />
+          <input className="submit" type="submit" value="로그인" />
         </LoginForm>
         <Link href="/register">
           <label className="register">회원가입</label>

@@ -21,11 +21,13 @@ const PostCard = ({ post }) => {
   return (
     <PostCon>
       <div className="remove-con">
-        <button onClick={onRemovePost}>X</button>
+        <button type="button" onClick={onRemovePost}>
+          X
+        </button>
       </div>
       <PostContainer>
         <div className="post-img">
-          <PostImages images={post.Images} />
+          <PostImages images={post?.Images} />
         </div>
         <div className="post-content">
           <span className="post-title">{post?.title}</span>

@@ -14,6 +14,9 @@ import {
   REMOVE_POST_FAILURE,
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
+  UPLOAD_IMAGES_FAILURE,
+  UPLOAD_IMAGES_SUCCESS,
+  UPLOAD_IMAGES_REQUEST,
 } from '../reducers/post';
 
 function loadPostAPI(lastId) {
@@ -23,7 +26,6 @@ function loadPostAPI(lastId) {
 function* loadPost(action) {
   try {
     const result = yield call(loadPostAPI, action.lastId);
-    yield delay(1000);
     yield put({
       type: LOAD_POST_SUCCESS,
       data: result.data,
@@ -41,6 +43,7 @@ function* loadPost(action) {
     });
   }
 }
+
 function loadHashtagPostsAPI(data, lastId) {
   return axios.get(`/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
 }
@@ -95,14 +98,9 @@ function removePostAPI(data) {
 function* removePost(action) {
   try {
     const result = yield call(removePostAPI, action.data);
-    yield delay(1000);
     yield put({
       type: REMOVE_POST_SUCCESS,
       data: result.data,
-    });
-    yield put({
-      type: REMOVE_POST_OF_ME,
-      data: action.data,
     });
   } catch (err) {
     console.error(err);
@@ -113,22 +111,50 @@ function* removePost(action) {
   }
 }
 
+function uploadImagesAPI(data) {
+  return axios.post('/post/images', data);
+  // formData는 json 형식으로 전송되면 안되기 때문에 data로 코딩함.
+}
+
+function* uploadImages(action) {
+  try {
+    const result = yield call(uploadImagesAPI, action.data);
+    yield put({
+      type: UPLOAD_IMAGES_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: UPLOAD_IMAGES_FAILURE,
+      data: err.response.data,
+    });
+  }
+}
 function* watchLoadPost() {
   yield throttle(5000, LOAD_POST_REQUEST, loadPost);
 }
 
 function* watchAddpost() {
-  yield throttle(5000, ADD_POST_REQUEST, addPost);
+  yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 
 function* watchRemovePost() {
-  yield throttle(5000, REMOVE_POST_REQUEST, removePost);
+  yield takeLatest(REMOVE_POST_REQUEST, removePost);
 }
 
 function* watchLoadHashtagPost() {
-  yield throttle(5000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
+  yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
 }
-
+function* watchUploadImages() {
+  yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
+}
 export default function* postSaga() {
-  yield all([fork(watchAddpost), fork(watchLoadPost), fork(watchRemovePost), fork(watchLoadHashtagPost)]);
+  yield all([
+    fork(watchAddpost),
+    fork(watchLoadPost),
+    fork(watchRemovePost),
+    fork(watchLoadHashtagPost),
+    fork(watchUploadImages),
+  ]);
 }

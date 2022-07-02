@@ -5,7 +5,7 @@ import produce from 'immer';
 import faker from 'faker';
 export const initialState = {
   mainPosts: [
-    {
+    /*  {
       id: 0,
       User: {
         id: 1,
@@ -49,7 +49,7 @@ export const initialState = {
           src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
         },
       ],
-    },
+    }, */
   ],
   imagePaths: [],
   hasMorePost: true,
@@ -138,6 +138,7 @@ const reducer = (state = initialState, action) =>
         draft.loadPostError = null;
         break;
       case LOAD_POST_SUCCESS:
+        console.log(action.data);
         draft.loadPostLoading = false;
         draft.loadPostDone = true;
         draft.mainPosts = draft.mainPosts.concat(action.data);
@@ -181,12 +182,13 @@ const reducer = (state = initialState, action) =>
         draft.uploadImagesDone = false;
         draft.uploadImagesError = null;
         break;
-      case UPLOAD_IMAGES_SUCCESS:
-        console.log(action.data);
+      case UPLOAD_IMAGES_SUCCESS: {
+        draft.imagePaths = draft.imagePaths.concat(action.data);
+        //concat 함수를 이용하여 imagePaths 배열에 action.data(이미지 데이터)를 합치기
         draft.uploadImagesLoading = false;
         draft.uploadImagesDone = true;
-        draft.imagePaths = action.data;
         break;
+      }
       case UPLOAD_IMAGES_FAILURE:
         draft.uploadImagesLoading = false;
         draft.uploadImagesError = action.error;
