@@ -17,6 +17,9 @@ import {
   UPLOAD_IMAGES_FAILURE,
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_REQUEST,
+  LOAD_DETAIL_POST_FAILURE,
+  LOAD_DETAIL_POST_REQUEST,
+  LOAD_DETAIL_POST_SUCCESS,
 } from '../reducers/post';
 
 function loadPostAPI(lastId) {
@@ -39,6 +42,26 @@ function* loadPost(action) {
   } catch (err) {
     yield put({
       type: LOAD_POST_FAILURE,
+      data: err.response.data,
+    });
+  }
+}
+
+function loadDetailPostAPI(data) {
+  return axios.get(`/post/${data}`);
+}
+
+function* loadDetailPost(action) {
+  try {
+    const result = yield call(loadDetailPostAPI, action.data);
+    yield put({
+      type: LOAD_DETAIL_POST_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_DETAIL_POST_FAILURE,
       data: err.response.data,
     });
   }
@@ -149,6 +172,9 @@ function* watchLoadHashtagPost() {
 function* watchUploadImages() {
   yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 }
+function* watchLoadDetailPost() {
+  yield takeLatest(LOAD_DETAIL_POST_REQUEST, loadDetailPost);
+}
 export default function* postSaga() {
   yield all([
     fork(watchAddpost),
@@ -156,5 +182,6 @@ export default function* postSaga() {
     fork(watchRemovePost),
     fork(watchLoadHashtagPost),
     fork(watchUploadImages),
+    fork(watchLoadDetailPost),
   ]);
 }

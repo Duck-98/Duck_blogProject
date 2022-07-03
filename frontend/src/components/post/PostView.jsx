@@ -43,18 +43,16 @@ const Container = styled.div`
 `;
 
 const PostView = ({ post }) => {
-  const { mainPosts } = useSelector((state) => state.post);
-  const router = useRouter();
   return (
     <>
       <TitleCon>
-        <span className="title">{mainPosts[0]?.title}</span>
+        <span className="title">{post?.title}</span>
       </TitleCon>
       <Container>
         <div>
-          <span className="time"> {moment(mainPosts[0]?.createdAt).calendar()}</span>
-          <span className="tag">{mainPosts[0]?.tag}</span>
-          <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={mainPosts[0]?.content} />
+          <span className="time"> {moment(post?.createdAt).calendar()}</span>
+          <span className="tag">{post?.tag}</span>
+          <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={post?.content} />
         </div>
       </Container>
     </>

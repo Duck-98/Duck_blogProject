@@ -52,10 +52,14 @@ export const initialState = {
     }, */
   ],
   imagePaths: [],
+  singlePost: null,
   hasMorePost: true,
   loadPostLoading: false,
   loadPostDone: false,
   loadPostError: null,
+  loadDetailPostLoading: false,
+  loadDetailPostDone: false,
+  loadDetailPostError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -115,6 +119,10 @@ export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
 export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
 export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 
+export const LOAD_DETAIL_POST_REQUEST = 'LOAD_DETAIL_POST_REQUEST';
+export const LOAD_DETAIL_POST_SUCCESS = 'LOAD_DETAIL_POST_SUCCESS';
+export const LOAD_DETAIL_POST_FAILURE = 'LOAD_DETAIL_POST_FAILURE';
+
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
@@ -147,6 +155,20 @@ const reducer = (state = initialState, action) =>
       case LOAD_POST_FAILURE:
         draft.loadPostLoading = false;
         draft.loadPostError = action.error;
+        break;
+      case LOAD_DETAIL_POST_REQUEST:
+        draft.loadDetailPostLoading = true;
+        draft.loadDetailPostDone = false;
+        draft.loadDetailPostError = null;
+        break;
+      case LOAD_DETAIL_POST_SUCCESS:
+        draft.loadDetailPostLoading = false;
+        draft.loadDetailPostDone = true;
+        draft.singlePost = action.data;
+        break;
+      case LOAD_DETAIL_POST_FAILURE:
+        draft.loadDetailPostLoading = false;
+        draft.loadDetailPostError = action.error;
         break;
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;
