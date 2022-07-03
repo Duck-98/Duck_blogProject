@@ -27,6 +27,7 @@ import { Button, TitleCon, ImageCon, TagInput } from './style';
 const PostWrite = () => {
   const { addPostDone, imagePaths } = useSelector((state) => state.post);
   const dispatch = useDispatch();
+  const router = useRouter();
   const [markdown, setMarkdown] = useState(``);
   const [title, setTitle] = useState('');
   const [tag, setTag] = useState('');
@@ -69,7 +70,7 @@ const PostWrite = () => {
         type: ADD_POST_REQUEST,
         data: formData,
       });
-      /*return router.push('/posts/blog');*/
+      return router.push('/posts/blog');
     },
     [imagePaths],
   );

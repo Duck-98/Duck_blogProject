@@ -14,10 +14,12 @@ const Container = styled.div`
 `;
 const BlogView = () => {
   const router = useRouter();
-
+  console.log(router);
   return (
     <Container>
       <PostView />
+      <h4>{router.query.title}</h4>
+      <h4>{router.query.id}</h4>
     </Container>
   );
 };

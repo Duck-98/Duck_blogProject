@@ -1,4 +1,6 @@
 import React from 'react';
+import { useRouter, withRouter } from 'next/router';
+
 import Prism from 'prismjs';
 // 여기 css를 수정해서 코드 하이라이팅 커스텀 가능
 import 'prismjs/themes/prism.css';
@@ -42,17 +44,17 @@ const Container = styled.div`
 
 const PostView = ({ post }) => {
   const { mainPosts } = useSelector((state) => state.post);
-
+  const router = useRouter();
   return (
     <>
       <TitleCon>
-        <span className="title">{mainPosts[0].title}</span>
+        <span className="title">{mainPosts[0]?.title}</span>
       </TitleCon>
       <Container>
         <div>
-          <span className="time"> {moment(mainPosts[0].createdAt).calendar()}</span>
-          <span className="tag">{mainPosts[0].tag}</span>
-          <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={mainPosts[0].content} />
+          <span className="time"> {moment(mainPosts[0]?.createdAt).calendar()}</span>
+          <span className="tag">{mainPosts[0]?.tag}</span>
+          <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={mainPosts[0]?.content} />
         </div>
       </Container>
     </>

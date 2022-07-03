@@ -5,8 +5,8 @@ const PostImages = ({ images }) => {
   return (
     <>
       <img
-        src={images?.src}
-        alt={images?.src}
+        src={`http://localhost:3065/${images[0].src}`}
+        alt={images[0]?.src}
         style={{
           width: '495px',
           height: '295px',

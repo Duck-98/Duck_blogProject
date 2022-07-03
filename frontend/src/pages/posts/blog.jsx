@@ -12,6 +12,7 @@ import PostCardTag from '../../components/post/PostCardTag';
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  margin-bottom: 46.5rem;
   .tag {
     display: flex;
     width: 20%;
@@ -20,12 +21,13 @@ const Container = styled.div`
     }
   }
   .list {
-    margin-bottom: 700px;
     display: flex;
     flex-wrap: wrap;
     width: 1200px;
-
     justify-content: space-around;
+    .a {
+      color: black;
+    }
   }
 `;
 
@@ -37,7 +39,7 @@ const Blog = ({ post }) => {
 
   useEffect(() => {
     function onScroll() {
-      if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+      if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
         if (hasMorePost && !loadPostLoading) {
           const lastId = mainPosts[mainPosts.length - 1]?.id;
           dispatch({
@@ -51,18 +53,18 @@ const Blog = ({ post }) => {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [hasMorePost]);
-
-  const onClick = (id) => {
+  }, [hasMorePost, loadPostLoading, mainPosts]);
+  const onClick = (id, title) => {
     router.push(
       {
         pathname: `/posts/${id}`,
         query: {
-          id,
+          title,
         },
       },
       `/posts/${id}`,
     );
+    console.log(id, title);
   };
 
   return (
@@ -102,16 +104,18 @@ const Blog = ({ post }) => {
               ({
                 pathname: `/posts/${post.id}`,
                 query: {
-                  id: post.id,
+                  title: post.title,
                 },
               },
               `/posts/${post.id}`)
             }
             key={post.id}
           >
-            <div className="item-con">
-              <PostCard key={post.id} post={post} images={post.Images} onClick={() => onClick(post.id)} />
-            </div>
+            <a className="a">
+              <div className="item-con">
+                <PostCard key={post.id} post={post} id={post.id} onClick={() => onClick(id, title)} />
+              </div>
+            </a>
           </Link>
         ))}
       </div>
