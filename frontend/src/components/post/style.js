@@ -76,7 +76,7 @@ export const PostContainer = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 50px;
+      width: auto;
       height: 20px;
       border-radius: 5px;
       background-color: ${(props) => props.theme.BACKGROUND_COLOR};

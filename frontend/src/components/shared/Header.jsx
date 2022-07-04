@@ -21,9 +21,6 @@ const Header = () => {
         </div>
         <NavbarBox open={open}>
           <ul className="navbar_menu">
-            <Link href="/intro">
-              <li>Intro</li>
-            </Link>
             <Link href="/posts/blog">
               <li>Blog</li>
             </Link>

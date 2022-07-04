@@ -7,14 +7,15 @@ const TagCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
   height: 20px;
   border-radius: 5px;
   background-color: ${(props) => props.theme.BACKGROUND_COLOR};
   font-size: 15px;
   color: ${(props) => props.theme.LINE_WHITE_COLOR};
-  &:hover {
-    background-color: ${(props) => props.theme.CURSOR_COLOR};
+  a {
+    &:hover {
+      background-color: ${(props) => props.theme.CURSOR_COLOR};
+    }
   }
 `;
 const PostContentTag = ({ postData }) => {
@@ -28,7 +29,7 @@ const PostContentTag = ({ postData }) => {
               as={`/posts/hashtag/${v.slice(1)}`}
               key={v}
             >
-              {v}
+              <a>{v}</a>
             </Link>
           );
         }

@@ -1,30 +1,31 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
-const passport = require("passport");
-const { User, Post, Comment, Image } = require("../models");
-const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
+const express = require('express');
+const bcrypt = require('bcrypt');
+const passport = require('passport');
+const { User, Post, Comment, Image } = require('../models');
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const router = express.Router();
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
+  console.log(req.headers);
   try {
     if (req.user) {
       const fullUserWithoutPassword = await User.findOne({
         where: { id: req.user.id },
-        exclude: ["password"], // 전체 데이터에서 비밀번호만 제외하고 다 가져오겠다.
+        exclude: ['password'], // 전체 데이터에서 비밀번호만 제외하고 다 가져오겠다.
         include: [
           {
             model: Post,
-            attributes: ["id"],
+            attributes: ['id'],
           },
           {
             model: User,
-            as: "Followings",
-            attributes: ["id"],
+            as: 'Followings',
+            attributes: ['id'],
           },
           {
             model: User,
-            as: "Followers",
-            attributes: ["id"],
+            as: 'Followers',
+            attributes: ['id'],
           },
         ],
       });
@@ -38,15 +39,15 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
-router.get("/followers", isLoggedIn, async (req, res, next) => {
+router.get('/followers', isLoggedIn, async (req, res, next) => {
   // GET /user/followers
   try {
     const user = await User.findOne({ where: { id: req.user.id } });
     if (!user) {
-      res.status(403).send("없는 사람을 찾으려고 하시네요?");
+      res.status(403).send('없는 사람을 찾으려고 하시네요?');
     }
     const followers = await user.getFollowers({
-      attributes: ["id", "nickname"],
+      attributes: ['id', 'nickname'],
       limit: parseInt(req.query.limit, 10),
     });
     res.status(200).json(followers);
@@ -56,15 +57,15 @@ router.get("/followers", isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.get("/followings", isLoggedIn, async (req, res, next) => {
+router.get('/followings', isLoggedIn, async (req, res, next) => {
   // GET /user/followings
   try {
     const user = await User.findOne({ where: { id: req.user.id } });
     if (!user) {
-      res.status(403).send("없는 사람을 찾으려고 하시네요?");
+      res.status(403).send('없는 사람을 찾으려고 하시네요?');
     }
     const followings = await user.getFollowings({
-      attributes: ["id", "nickname"],
+      attributes: ['id', 'nickname'],
       limit: parseInt(req.query.limit, 10),
     });
     res.status(200).json(followings);
@@ -73,9 +74,9 @@ router.get("/followings", isLoggedIn, async (req, res, next) => {
     next(error);
   }
 });
-router.post("/login", (req, res, next) => {
+router.post('/login', (req, res, next) => {
   // middleware를 확장시키는 문법
-  passport.authenticate("local", (err, user, info) => {
+  passport.authenticate('local', (err, user, info) => {
     // info => 클라이언트 Error
     if (err) {
       console.error(err);
@@ -92,33 +93,33 @@ router.post("/login", (req, res, next) => {
       } // Error발생시
       const fullUserWithoutPassword = await User.findOne({
         where: { id: user.id },
-        exclude: ["password"], 
+        exclude: ['password'],
         // 전체 데이터에서 비밀번호만 제외하고 다 가져오기
         include: [
           {
             model: Post,
-            attributes: ["id"],
+            attributes: ['id'],
           },
           {
             model: User,
-            as: "Followings",
-            attributes: ["id"],
+            as: 'Followings',
+            attributes: ['id'],
           },
           {
             model: User,
-            as: "Followers",
-            attributes: ["id"],
+            as: 'Followers',
+            attributes: ['id'],
           },
         ],
       });
-      return res.status(200).json(fullUserWithoutPassword); 
+      return res.status(200).json(fullUserWithoutPassword);
       // 사용자 정보를 프론트로 넘겨줌
       //user -> front) saga(action.data) / reducer(me) 데이터로 변환됨
     });
   })(req, res, next);
 });
 
-router.post("/", isNotLoggedIn, async (req, res, next) => {
+router.post('/', isNotLoggedIn, async (req, res, next) => {
   // async await을 이용하여 비동기 문제 해결
   try {
     const exUser = await User.findOne({
@@ -127,7 +128,7 @@ router.post("/", isNotLoggedIn, async (req, res, next) => {
       },
     }); // 같은 이메일을 사용하고 있는 사람이 있는지
     if (exUser) {
-      return res.status(403).send("이미 사용중인 아이디입니다.");
+      return res.status(403).send('이미 사용중인 아이디입니다.');
     } // return이 없으면 아래있는 res도 실행이 됨.
     const hashedPassword = await bcrypt.hash(req.body.password, 13);
     await User.create({
@@ -135,20 +136,20 @@ router.post("/", isNotLoggedIn, async (req, res, next) => {
       nickname: req.body.nickname,
       password: hashedPassword,
     });
-    res.send("ok");
+    res.send('ok');
   } catch (error) {
     console.error(error);
     next(error);
   }
 }); //post /user/
 
-router.post("/logout", isLoggedIn, (req, res) => {
+router.post('/logout', isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
-  res.send("ok");
+  res.send('ok');
 });
 
-router.patch("/nickname", isLoggedIn, async (req, res, next) => {
+router.patch('/nickname', isLoggedIn, async (req, res, next) => {
   try {
     await User.update(
       {
@@ -165,7 +166,7 @@ router.patch("/nickname", isLoggedIn, async (req, res, next) => {
   }
 });
 /* User 개인 포스트 불러오기 */
-router.get("/:userId/posts", async (req, res, next) => {
+router.get('/:userId/posts', async (req, res, next) => {
   try {
     // Get /user/1/posts
     const where = { UserId: req.params.userId };
@@ -179,14 +180,14 @@ router.get("/:userId/posts", async (req, res, next) => {
       limit: 10,
       //  offset: 10,
       order: [
-        ["createdAt", "DESC"],
-        [Comment, "createdAt", "DESC"],
+        ['createdAt', 'DESC'],
+        [Comment, 'createdAt', 'DESC'],
       ],
       // 최신 게시물 0~10개씩 가져오기
       include: [
         {
           model: User,
-          attributes: ["id", "nickname"],
+          attributes: ['id', 'nickname'],
         },
         {
           model: Image,
@@ -196,14 +197,14 @@ router.get("/:userId/posts", async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ["id", "nickname"],
+              attributes: ['id', 'nickname'],
             },
           ],
         },
         {
           model: User,
-          as: "Likers",
-          attributes: ["id"],
+          as: 'Likers',
+          attributes: ['id'],
         },
       ],
     });
@@ -221,12 +222,12 @@ module.exports = router;
 req.params.id -> 내가 아닌 다른 사람
 req.user.id -> 나
 */
-router.delete("/follower/:userId", isLoggedIn, async (req, res, next) => {
+router.delete('/follower/:userId', isLoggedIn, async (req, res, next) => {
   // DELETE /user/follower/2
   try {
     const user = await User.findOne({ where: { id: req.params.userId } });
     if (!user) {
-      res.status(403).send("없는 사람을 차단하려고 하시네요?");
+      res.status(403).send('없는 사람을 차단하려고 하시네요?');
     }
     await user.removeFollowings(req.user.id);
     res.status(200).json({ UserId: parseInt(req.params.userId, 10) });
@@ -240,7 +241,7 @@ router.patch(`/:userId/follow`, isLoggedIn, async (req, res, next) => {
   try {
     const user = await User.findOne({ where: { id: req.params.userId } });
     if (!user) {
-      res.status(403).send("팔로우 할 수 없습니다.");
+      res.status(403).send('팔로우 할 수 없습니다.');
     }
     user.addFollowers(req.user.id);
     res.status(200).json({ UserId: parseInt(req.params.userId, 10) });
@@ -255,7 +256,7 @@ router.delete(`/:userId/follow`, isLoggedIn, async (req, res, next) => {
   try {
     const user = await User.findOne({ where: { id: req.params.userId } });
     if (!user) {
-      res.status(403).send("언팔로우 할 수 없습니다.");
+      res.status(403).send('언팔로우 할 수 없습니다.');
     }
     user.removeFollowers(req.user.id);
     res.status(200).json({ UserId: parseInt(req.params.userId, 10) });

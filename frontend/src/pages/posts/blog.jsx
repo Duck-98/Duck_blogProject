@@ -36,10 +36,9 @@ const Container = styled.div`
 `;
 
 const Blog = ({ post }) => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const { mainPosts, hasMorePost, loadPostLoading } = useSelector((state) => state.post);
-  const { logInDone, me } = useSelector((state) => state.user);
+  const { me } = useSelector((state) => state.user);
 
   useEffect(() => {
     function onScroll() {
@@ -85,7 +84,7 @@ const Blog = ({ post }) => {
               </ul>
             </div>
             <div className="btn-container">
-              {logInDone ? (
+              {me ? (
                 <Link href="/posts/blogWrite">
                   <button className="btn">글쓰기</button>
                 </Link>

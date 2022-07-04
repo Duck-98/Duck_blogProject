@@ -18,28 +18,19 @@ import tableMergedCell from '@toast-ui/editor-plugin-table-merged-cell';
 import uml from '@toast-ui/editor-plugin-uml';
 import '@toast-ui/chart/dist/toastui-chart.css';
 
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from '../../reducers/post';
 import Router, { useRouter } from 'next/router';
 import { Button, TitleCon, ImageCon, TagInput } from './style';
 
 const PostWrite = () => {
-  const { addPostDone, imagePaths } = useSelector((state) => state.post);
+  const { imagePaths } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [markdown, setMarkdown] = useState(``);
   const [title, setTitle] = useState('');
   const [tag, setTag] = useState('');
-  const [fileImage, setFileImage] = useState('');
   const inputRef = useRef();
-  /*
-  useEffect(() => {
-    if (addPostDone) {
-      Router.replace('/posts/blog');
-    }
-  }, [addPostDone]); // 게시글 쓰기가 완료되면 메인홈페이지로 이동
-*/
   const onChangeTags = (e) => {
     e.preventDefault();
     setTag(e.target.value);
@@ -79,7 +70,6 @@ const PostWrite = () => {
   const imageInput = useRef();
   const onChangeImages = useCallback((e) => {
     console.log('images', e.target.files); // 선택한 파일 정보
-    //setFileImage(URL.createObjectURL(e.target.files[0]));
     const imageFormData = new FormData(); // 멀티파트 형식으로 서버로 전송.
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append('image', f);
@@ -90,8 +80,6 @@ const PostWrite = () => {
     });
   });
   const onRemoveImage = useCallback((index) => () => {
-    // URL.revokeObjectURL(fileImage);
-    //setFileImage('');
     dispatch({
       // 이미지 삭제
       type: REMOVE_IMAGE,
@@ -164,13 +152,4 @@ const PostWrite = () => {
     </>
   );
 };
-/*
-  console.log(blob); // File {name: '카레유.png', ... }
-
-            // 1. 첨부된 이미지 파일을 서버로 전송후, 이미지 경로 url을 받아온다.
-            // const imgUrl = await .... 서버 전송 / 경로 수신 코드 ...
-
-            // 2. 첨부된 이미지를 화면에 표시(경로는 임의로 넣었다.)
-            callback(/*'http://localhost:5000/img/카레유.png', '카레유';
-*/
 export default PostWrite;

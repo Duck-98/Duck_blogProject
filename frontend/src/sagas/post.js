@@ -32,12 +32,6 @@ function* loadPost(action) {
     yield put({
       type: LOAD_POST_SUCCESS,
       data: result.data,
-      /* {
-        id,
-        title: action.data.title,
-        content: action.data.content,
-        tag: action.data.tag
-      } */
     });
   } catch (err) {
     yield put({

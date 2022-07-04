@@ -7,17 +7,16 @@ import { logoutRequestAction } from '../../reducers/user';
 
 const Footer = () => {
   const dispatch = useDispatch();
-  const { me, logOutLoading, logInDone } = useSelector((state) => state.user);
+  const { me, logOutLoading } = useSelector((state) => state.user);
   const onLogOut = useCallback(() => {
     dispatch(logoutRequestAction());
     // 로그아웃 버튼 눌렀을 때 로그아웃 액션 실행
   }, []);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <Foot>
       <div className="footer">
         <div className="container">
-          {logInDone ? (
+          {me ? (
             <>
               <span>로그아웃하기</span>
               <MdLogout className="login" onClick={onLogOut} loading={logOutLoading} />

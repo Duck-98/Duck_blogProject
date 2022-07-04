@@ -2,55 +2,8 @@
 /* eslint-disable default-param-last */
 import shortId from 'shortid';
 import produce from 'immer';
-import faker from 'faker';
 export const initialState = {
-  mainPosts: [
-    /*  {
-      id: 0,
-      User: {
-        id: 1,
-        nickname: 'duck',
-      },
-      title: '게시글입니다 테스트',
-      content: '게시글 왜 안돼 #리액트',
-      tag: '#리액트',
-      Images: [
-        {
-          src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
-        },
-      ],
-    },
-    {
-      id: 1,
-      User: {
-        id: 1,
-        nickname: 'duck',
-      },
-      title: '게시글 제목 테스트',
-      content: '게시글 테스트 #리액트',
-      tag: '#리액트',
-      Images: [
-        {
-          src: 'https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg',
-        },
-      ],
-    },
-    {
-      id: 2,
-      User: {
-        id: 1,
-        nickname: 'duck',
-      },
-      title: '제발 되라',
-      content: '## 제발되라',
-      tag: '#리액트',
-      Images: [
-        {
-          src: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
-        },
-      ],
-    }, */
-  ],
+  mainPosts: [],
   imagePaths: [],
   singlePost: null,
   hasMorePost: true,
@@ -73,44 +26,7 @@ export const initialState = {
   loadPostsDone: false,
   loadPostsError: null,
 };
-/*
-export const generateDummyPost = (number) =>
-  Array(number)
-    .fill()
-    .map(() => ({
-      id: shortId.generate(),
-      User: {
-        id: shortId.generate(),
-        nickname: faker.name.findName(),
-      },
-      title: faker.lorem.sentence(),
-      content: faker.lorem.paragraph(),
-      tag: '#태그',
-      Images: [
-        {
-          src: faker.image.image(),
-        },
-      ],
-    }));
 
-initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
-
-const dummyPost = (data) => ({
-  id: data.id,
-  User: {
-    id: 1,
-    nickname: 'duck1',
-  },
-  title: data.title,
-  content: data.content,
-  tag: data.tag,
-  Images: [
-    {
-      src: data.imageSrc,
-    },
-  ],
-});
-*/
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
@@ -146,7 +62,6 @@ const reducer = (state = initialState, action) =>
         draft.loadPostError = null;
         break;
       case LOAD_POST_SUCCESS:
-        console.log(action.data);
         draft.loadPostLoading = false;
         draft.loadPostDone = true;
         draft.mainPosts = draft.mainPosts.concat(action.data);
