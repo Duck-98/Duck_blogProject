@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const SubContainer = styled.div`
   display: flex;
@@ -40,7 +40,6 @@ export const SubContainer = styled.div`
   }
   .profile {
     img {
-      border: 2px solid black;
       width: 300px;
       height: 400px;
     }

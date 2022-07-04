@@ -13,10 +13,7 @@ const Header = () => {
       <Nav>
         <div className="navbar_logo">
           <Link href="/">
-            <A>
-              <GiPlasticDuck fontSize="35px" />
-              Duck's Blog
-            </A>
+            <A>Duck_Blog</A>
           </Link>
         </div>
         <NavbarBox open={open}>

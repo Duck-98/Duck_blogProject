@@ -87,15 +87,21 @@ export const NavbarBox = styled.div`
 `;
 
 export const Foot = styled.footer`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  .title {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
   background-color: ${(props) => props.theme.BACKGROUND_COLOR};
   min-height: calc(100%-100px);
   color: white;
   .footer {
     display: flex;
     flex-direction: row;
-    padding-top: 50px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     .container {
       display: flex;
     }
@@ -106,6 +112,12 @@ export const Foot = styled.footer`
     .login {
       font-size: 40px;
       cursor: pointer;
+    }
+  }
+  .introduce {
+    padding-left: 1rem;
+    span {
+      font-size: 1rem;
     }
   }
 `;

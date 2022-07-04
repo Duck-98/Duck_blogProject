@@ -14,6 +14,7 @@ const Footer = () => {
   }, []);
   return (
     <Foot>
+      <span className="title">Duck_Blog</span>
       <div className="footer">
         <div className="container">
           {me ? (
@@ -30,7 +31,7 @@ const Footer = () => {
             </>
           )}
         </div>
-        <div>
+        <div className="introduce">
           <span>나덕경 godqhr2256@gmail.com</span>
           <span>Copyright © 2022 Duck all rights reserved.</span>
         </div>
