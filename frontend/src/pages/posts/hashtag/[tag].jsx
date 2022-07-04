@@ -1,14 +1,17 @@
-/*import React, { useEffect, useCallback } from 'react';
-import PostCard from '../../components/post/PostCard';
+import React, { useEffect } from 'react';
+import PostCard from '../../../components/post/PostCard';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import { END } from 'redux-saga';
+import axios from 'axios';
 import Link from 'next/link';
-import { LOAD_POST_REQUEST } from '../../reducers/post';
-import PropTypes from 'prop-types';
-import { Tag } from '../../components/post/style';
-import PostCardTag from '../../components/post/PostCardTag';
+import wrapper from '../../../store/configure';
 import { LOAD_HASHTAG_POSTS_REQUEST } from '../../../reducers/post';
+import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
+import PropTypes from 'prop-types';
+import { Tag } from '../../../components/post/style';
+import PostCardTag from '../../../components/post/PostCardTag';
 import { useInView } from 'react-intersection-observer';
 
 const Container = styled.div`
@@ -40,7 +43,7 @@ const HashTag = ({ post }) => {
   const [ref, inView] = useInView();
 
   useEffect(() => {
-    if (inView && hasMorePost && !loadPostsLoading) {
+    if (inView && hasMorePost && !loadPostLoading) {
       const lastId = mainPosts[mainPosts.length - 1]?.id;
       dispatch({
         type: LOAD_HASHTAG_POSTS_REQUEST,
@@ -116,6 +119,23 @@ const HashTag = ({ post }) => {
   );
 };
 
+export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, params }) => {
+  const cookie = req ? req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  store.dispatch({
+    type: LOAD_MY_INFO_REQUEST,
+  });
+  store.dispatch({
+    type: LOAD_HASHTAG_POSTS_REQUEST,
+    data: params.tag,
+  });
+  store.dispatch(END);
+  await store.sagaTask.toPromise();
+});
+
 HashTag.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.number,
@@ -130,4 +150,3 @@ HashTag.propTypes = {
 };
 
 export default HashTag;
-*/

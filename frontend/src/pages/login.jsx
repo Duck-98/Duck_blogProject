@@ -16,9 +16,9 @@ const Register = () => {
   }, [logInError]);
   useEffect(() => {
     if (logInDone) {
-      Router.replace('/');
+      Router.back();
     }
-  }, [logInDone]); // 로그인이 완료되면 메인홈페이지로 이동
+  }, [logInDone]); // 로그인이 완료되면 이전 홈페이지로 이동
   const {
     register,
     handleSubmit,

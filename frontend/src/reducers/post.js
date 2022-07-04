@@ -218,19 +218,19 @@ const reducer = (state = initialState, action) =>
       case REMOVE_IMAGE:
         draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
       case LOAD_HASHTAG_POSTS_REQUEST:
-        draft.loadPostsLoading = true;
-        draft.loadPostsDone = false;
-        draft.loadPostsError = null;
+        draft.loadPostLoading = true;
+        draft.loadPostDone = false;
+        draft.loadPostError = null;
         break;
       case LOAD_HASHTAG_POSTS_SUCCESS:
-        draft.loadPostsLoading = false;
-        draft.loadPostsDone = true;
+        draft.loadPostLoading = false;
+        draft.loadPostDone = true;
         draft.mainPosts = draft.mainPosts.concat(action.data);
         draft.hasMorePost = action.data.length === 10;
         break;
       case LOAD_HASHTAG_POSTS_FAILURE:
-        draft.loadPostsLoading = false;
-        draft.loadPostsError = action.error;
+        draft.loadPostLoading = false;
+        draft.loadPostError = action.error;
         break;
       default:
         break;

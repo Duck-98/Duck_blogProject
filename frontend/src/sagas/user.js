@@ -77,7 +77,9 @@ function* signUp(action) {
 }
 
 function loadMyInfoAPI() {
-  return axios.get('/user');
+  return axios.get('/user', {
+    withCredentials: true,
+  });
 }
 
 function* loadMyInfo() {

@@ -20,7 +20,6 @@ const configureStore = (context) => {
   store.sagaTask = sagaMiddleware.run(rootSaga);
   return store;
 };
-
 const wrapper = createWrapper(configureStore, {
   debug: process.env.NODE_ENV === 'development',
 });

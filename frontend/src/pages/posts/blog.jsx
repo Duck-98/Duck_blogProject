@@ -28,7 +28,10 @@ const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     width: 1200px;
-    justify-content: space-around;
+    justify-content: flex-start;
+    .item-con {
+      padding-right: 2rem;
+    }
   }
 `;
 
@@ -36,12 +39,8 @@ const Blog = ({ post }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { mainPosts, hasMorePost, loadPostLoading } = useSelector((state) => state.post);
-  const { logInDone } = useSelector((state) => state.user);
-  useEffect(() => {
-    dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    });
-  }, []);
+  const { logInDone, me } = useSelector((state) => state.user);
+
   useEffect(() => {
     function onScroll() {
       if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {

@@ -23,7 +23,11 @@ const PostContentTag = ({ postData }) => {
       {postData?.split(/(#[^\s#]+)/g).map((v) => {
         if (v.match(/(#[^\s#]+)/)) {
           return (
-            <Link href={{ pathname: '/hashtag', query: { tag: v.slice(1) } }} as={`/hashtag/${v.slice(1)}`} key={v}>
+            <Link
+              href={{ pathname: '/posts/hashtag', query: { tag: v.slice(1) } }}
+              as={`/posts/hashtag/${v.slice(1)}`}
+              key={v}
+            >
               {v}
             </Link>
           );
