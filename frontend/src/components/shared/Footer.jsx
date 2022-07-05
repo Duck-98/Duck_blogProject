@@ -24,7 +24,6 @@ const Footer = () => {
             </>
           ) : (
             <>
-              <span>로그인하기</span>
               <Link href="/login">
                 <MdLogin className="login" />
               </Link>
