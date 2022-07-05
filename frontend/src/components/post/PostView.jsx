@@ -32,7 +32,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
+    width: 300px;
     height: 20px;
     border-radius: 5px;
     background-color: ${(props) => props.theme.BACKGROUND_COLOR};
