@@ -1,6 +1,5 @@
 /* eslint-disable no-fallthrough */
 /* eslint-disable default-param-last */
-import shortId from 'shortid';
 import produce from 'immer';
 export const initialState = {
   mainPosts: [],

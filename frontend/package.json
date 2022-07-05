@@ -4,16 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start",
+    "dev": "next -p 3000",
+    "build": "cross-env NODE_ENV=production ANALYZE=true next build",
+    "start": "cross-env NODE_ENV=production next start -p 3000",
     "lint": "eslint './src/**/*.{js,jsx}'",
     "lint:fix": "eslint --fix './src/**/*.{js,jsx}'"
   },
   "author": "Duck",
   "license": "ISC",
   "dependencies": {
-    "@next/bundle-analyzer": "^12.1.6",
+    "@next/bundle-analyzer": "^12.2.0",
     "@toast-ui/editor-plugin-chart": "^3.0.1",
     "@toast-ui/editor-plugin-code-syntax-highlight": "^3.0.0",
     "@toast-ui/editor-plugin-color-syntax": "^3.0.3",

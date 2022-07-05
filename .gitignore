@@ -93,7 +93,7 @@ dist
 
 # Serverless directories
 .serverless/
-
+duck-blog.pem
 # FuseBox cache
 .fusebox/
 
