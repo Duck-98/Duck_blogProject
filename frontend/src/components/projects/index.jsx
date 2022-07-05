@@ -64,7 +64,7 @@ const Projects = () => (
         <Card>
           <a href="https://www.notion.so/Duck-Blog-3abcb8b528ba47bc8b4d22c4935cfbcc">
             <div className="img">
-              <img src="img/Duck-Blog2.png" alt="profile" />
+              <img src="img/Duck-Blog.png" alt="profile" />
             </div>
             <div className="content">
               <span className="title">Duck-Blog</span>
