@@ -6,6 +6,8 @@ const passport = require('passport');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const path = require('path');
+const helmet = require('helmet');
+const hpp = require('hpp');
 //const path = require('path');
 
 const postRouter = require('./routes/post');
@@ -24,10 +26,17 @@ db.sequelize
   })
   .catch(console.error);
 passportConfig();
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined')); //배포용
+  app.use(hpp());
+  app.use(helmet());
+} else {
+  app.use(morgan('dev')); // 개발용
+}
+
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'duckblog.com'],
     credentials: true, // cookie도 같이 전달
   }),
 );
