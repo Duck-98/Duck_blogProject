@@ -28,10 +28,19 @@ export const Card = styled.div`
   .img {
     width: 200px;
     height: 200px;
-    border: 1px solid black;
     margin-bottom: 30px;
+    img {
+      width: 200px;
+      height: 200px;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
   }
   span {
     font-size: 20px;
+  }
+  a {
+    color: black;
   }
 `;

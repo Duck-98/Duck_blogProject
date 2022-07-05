@@ -38,5 +38,15 @@ export const Card = styled.div`
       font-weight: bold;
       padding-top: 1rem;
     }
+    a {
+      padding-top: 1rem;
+      font-size: 20px;
+      font-weight: bold;
+      color: black;
+      span {
+        font-weight: normal;
+        font-size: 16px;
+      }
+    }
   }
 `;

@@ -24,16 +24,24 @@ const Projects = () => (
       </div>
       <div className="card-con">
         <Card>
-          <div className="img">이미지</div>
-          <div className="content">
-            <span className="title"> 제목</span>
-          </div>
+          <a href="https://www.notion.so/655757b339254095b3567d7faecc071a">
+            <div className="img">
+              <img src="img/갓팅.png" alt="app" />
+            </div>
+            <div className="content">
+              <span className="title"> 소개팅 웹 앱 서비스</span>
+            </div>
+          </a>
         </Card>
         <Card>
-          <div className="img">이미지</div>
-          <div className="content">
-            <span className="title"> 제목</span>
-          </div>
+          <a href="https://www.notion.so/f10de6f0cb2f40d39249c5b402a5f73d">
+            <div className="img">
+              <img src="img/mask.png" alt="profile" />
+            </div>
+            <div className="content">
+              <span className="title">마스크 착용 유무 판단 프로그램</span>
+            </div>
+          </a>
         </Card>
       </div>
     </ProjectCon>
@@ -43,10 +51,25 @@ const Projects = () => (
       </div>
       <div className="card-con">
         <Card>
-          <div className="img">이미지</div>
-          <div className="content">
-            <span className="title"> 제목</span>
-          </div>
+          <a href="https://www.notion.so/d8e2005b146e4f1b9fe5cb4c563f3157">
+            <div className="img">
+              <img src="img/taxi.png" alt="profile" />
+            </div>
+            <div className="content">
+              <span className="title">택시팟 웹앱 서비스</span>
+            </div>
+          </a>
+        </Card>
+
+        <Card>
+          <a href="https://www.notion.so/Duck-Blog-3abcb8b528ba47bc8b4d22c4935cfbcc">
+            <div className="img">
+              <img src="img/Duck-Blog.png" alt="profile" />
+            </div>
+            <div className="content">
+              <span className="title">Duck-Blog</span>
+            </div>
+          </a>
         </Card>
       </div>
     </ProjectCon>
