@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect } from 'react';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
-import { Container, Form, Error } from './style';
+import { Container, Form, Error } from '../../components/register/style';
 import { useDispatch, useSelector } from 'react-redux';
 import { SIGN_UP_REQUEST } from '../../reducers/user';
 const Register = () => {

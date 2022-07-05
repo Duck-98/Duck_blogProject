@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { useForm } from 'react-hook-form';
-import { LoginContainer, LoginForm, Error } from './register/style';
+import { LoginContainer, LoginForm, Error } from '../components/register/style';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequestAction } from '../reducers/user';
 
