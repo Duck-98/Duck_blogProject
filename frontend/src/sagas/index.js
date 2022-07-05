@@ -3,8 +3,9 @@ import axios from 'axios';
 import postSaga from './post';
 
 import userSaga from './user';
+import { backUrl } from '../components/config/config';
 
-axios.defaults.baseURL = 'http://localhost:3065';
+axios.defaults.baseURL = backUrl;
 axios.defaults.withCredentials = true; // cookie 전달 true
 
 export default function* rootSaga() {

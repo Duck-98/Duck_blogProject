@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { backUrl } from '../config/config';
 
 const PostImages = ({ images }) => {
   return (
     <>
       <img
-        src={`http://localhost:3065/${images[0].src}`}
+        src={`${backUrl}/${images[0].src}`}
         alt={images[0]?.src}
         style={{
           width: '495px',

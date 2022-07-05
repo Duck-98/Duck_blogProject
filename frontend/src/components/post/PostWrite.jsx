@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from '../../reducers/post';
 import Router, { useRouter } from 'next/router';
 import { Button, TitleCon, ImageCon, TagInput } from './style';
+import { backUrl } from '../config/config';
 
 const PostWrite = () => {
   const { imagePaths } = useSelector((state) => state.post);
@@ -136,7 +137,7 @@ const PostWrite = () => {
             {imagePaths.map((v, i) => (
               <div key={v} style={{ display: 'inline-block' }}>
                 <img // // map함수 안에 데이터를 넣고 싶으면 고차함수로 만들어야함(index)
-                  src={`http://localhost:3065/${v}`} // 이미지 파일이 백엔드 서버에 있기 때문에 직접 백엔드 서버의 경로를 써줌.
+                  src={`${backUrl}/${v}`} // 이미지 파일이 백엔드 서버에 있기 때문에 직접 백엔드 서버의 경로를 써줌.
                   style={{ width: '200px' }}
                   alt={v}
                 />
