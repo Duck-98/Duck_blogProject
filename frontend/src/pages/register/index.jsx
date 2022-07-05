@@ -37,9 +37,7 @@ const Register = () => {
       data: data,
     });
   });
-  /*const onSubmit = (data) => {
-    console.log(data);
-  };*/
+
   const passwordRef = useRef(null);
   passwordRef.current = watch('password');
   return (
