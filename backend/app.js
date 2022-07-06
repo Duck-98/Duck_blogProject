@@ -36,7 +36,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'duckblog.com', 'http://13.209.50.244'],
+    origin: ['http://localhost:3000', 'duckblog.com', 'http://15.164.210.157'],
     credentials: true, // cookie도 같이 전달
   }),
 );
