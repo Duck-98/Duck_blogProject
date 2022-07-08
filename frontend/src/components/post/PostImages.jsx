@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { backUrl } from '../config/config';
+import { backUrl } from '../../config';
 
 const PostImages = ({ images }) => {
   return (

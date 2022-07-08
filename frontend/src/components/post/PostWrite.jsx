@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from '../../reducers/post';
 import Router, { useRouter } from 'next/router';
 import { Button, TitleCon, ImageCon, TagInput } from './style';
-import { backUrl } from '../config/config';
+import { backUrl } from '../../config';
 
 const PostWrite = () => {
   const { imagePaths } = useSelector((state) => state.post);
