@@ -30,16 +30,22 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined')); //배포용
   app.use(hpp());
   app.use(helmet());
+  app.use(
+    cors({
+      origin: ['http://duck-blog.info'],
+      credentials: true, // cookie도 같이 전달
+    }),
+  );
 } else {
   app.use(morgan('dev')); // 개발용
+  app.use(
+    cors({
+      origin: true,
+      credentials: true, // cookie도 같이 전달
+    }),
+  );
 }
 
-app.use(
-  cors({
-    origin: ['http://localhost:3000', 'duck-blog.info', 'http://3.39.183.77'],
-    credentials: true, // cookie도 같이 전달
-  }),
-);
 /* 
 app.get 가져오기
 app.post 생성하기
