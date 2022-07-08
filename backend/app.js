@@ -65,6 +65,11 @@ app.use(
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET, // cookie에 보낸 데이터도 해킹당하지 않기 위해 secret키도 숨기기
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      domain: process.env.NODE_ENV === 'production' && '.duck-blog.info',
+    },
   }),
 );
 app.use(passport.initialize());
