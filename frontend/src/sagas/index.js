@@ -3,7 +3,7 @@ import axios from 'axios';
 import postSaga from './post';
 
 import userSaga from './user';
-import { backUrl } from '../components/config/config';
+import { backUrl } from '../config/index';
 
 axios.defaults.baseURL = backUrl;
 axios.defaults.withCredentials = true; // cookie 전달 true
