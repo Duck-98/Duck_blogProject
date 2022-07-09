@@ -29,7 +29,11 @@ passportConfig();
 if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined')); //배포용
   app.use(hpp());
-  app.use(helmet());
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: false,
+    }),
+  );
   app.use(
     cors({
       origin: ['http://duck-blog.info'],
