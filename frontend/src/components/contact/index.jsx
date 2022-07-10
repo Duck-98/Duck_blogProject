@@ -18,7 +18,7 @@ const ContactComponent = () => (
         <span className="text"> godqhr2256@gmail.com</span>
         <a href="https://www.notion.so/1f9e3f41d31f49aa954cdb9d1b9bcab4">
           Notion<br></br>
-          <span className="text"> https://www.notion.so/1f9e3f41d31f49aa954cdb9d1b9bcab4</span>
+          <span className="notion"> https://www.notion.so/1f9e3f41d31f49aa954cdb9d1b9bcab4</span>
         </a>
       </div>
     </Card>

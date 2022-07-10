@@ -1,25 +1,26 @@
 import reset from 'styled-reset';
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
-import { lightTheme, ThemeType } from '.';
+import styled from 'styled-components';
+import { lightTheme } from '.';
 
 const GlobalStyle = createGlobalStyle`
       ${reset} 
-      html, body, #__next {
+ 
+
+  html,body, #__next {
+        width: 100%;
         margin: 0;
         padding: 0;
         height: 100%;
-        width: 100%;
-        background-color: #F8F9FA
-      }
-      * {
-        box-sizing: border-box;
+        background-color: ${lightTheme.MAIN_BACKGROUND_COLOR};
       }
       body {
+
         overflow-x: hidden;
-        width: 100%;
         font-family: 'Noto Sans KR', NanumSquare, notokr, 'Nanum Gothic', 'Malgun Gothic', sans-serif;
         box-sizing: border-box;
+        font-display: swap;
       }
       a {
         text-decoration: none;

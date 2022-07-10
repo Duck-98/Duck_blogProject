@@ -2,16 +2,21 @@ import styled from 'styled-components';
 
 export const SubContainer = styled.div`
   display: flex;
-  padding-top: 5rem;
+  justify-content: space-around;
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;
     align-items: center;
+    .content {
+      min-width: 100%;
+    }
   }
   .content {
     display: flex;
     flex-direction: column;
-    padding-left: 3rem;
+    width: 50%;
+    justify-content: center;
+    padding-bottom: 3rem;
     ul {
       padding-top: 2rem;
       li {
@@ -51,13 +56,18 @@ export const Container = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-top: 10rem;
+  padding-top: 10rem;
   width: 100%;
   @media screen and (max-width: 768px) {
     display: flex;
     justify-content: center;
+    padding-top: 5rem;
   }
+
   .intro {
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
     h1 {
       color: #333;
       font-family: tahoma;
@@ -69,13 +79,13 @@ export const Container = styled.div`
       overflow: hidden;
       position: relative;
       width: 550px;
+      max-width: 550px;
       span {
-        font-size: 40px;
+        max-font-size: 40px;
       }
       .message {
         background-color: yellow;
         color: #333;
-        display: block;
         font-weight: 900;
         overflow: hidden;
         position: absolute;
@@ -91,67 +101,72 @@ export const Container = styled.div`
         @keyframes openclose {
           0% {
             top: 0.2rem;
-            width: 0;
+            max-width: 0;
           }
           5% {
-            width: 0;
+            max-width: 0;
           }
           15% {
-            width: 230px;
+            max-width: 230px;
           }
           30% {
             top: 0.2rem;
-            width: 230px;
+            max-width: 230px;
           }
           33% {
             top: 0.2rem;
-            width: 0;
+            max-width: 0;
           }
           35% {
             top: 0.2rem;
-            width: 0;
+            max-width: 0;
           }
           38% {
             top: -4.5rem;
           }
           48% {
             top: -4.5rem;
-            width: 230px;
+            max-width: 230px;
           }
           62% {
             top: -4.5rem;
-            width: 230px;
+            max-width: 230px;
           }
           66% {
             top: -4.5rem;
-            width: 0;
+            max-width: 0;
             text-indent: 0;
           }
           71% {
             top: -9rem;
-            width: 0;
+            max-width: 0;
             text-indent: 5px;
           }
           86% {
             top: -9rem;
-            width: 285px;
+            max-width: 285px;
           }
           95% {
             top: -9rem;
-            width: 285px;
+            max-width: 285px;
           }
           98% {
             top: -9rem;
-            width: 0;
+            max-width: 0;
             text-indent: 5px;
           }
           100% {
             top: 0;
-            width: 0;
+            max-width: 0;
             text-indent: 0;
           }
         }
       }
     }
   }
+`;
+
+export const IntroCon = styled.div`
+  z-index: 100;
+  width: 100%;
 `;

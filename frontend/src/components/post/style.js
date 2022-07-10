@@ -1,10 +1,25 @@
 import styled from 'styled-components';
 
+export const PostBtn = styled.button`
+  border-radius: 10px;
+  border: none;
+  width: 100px;
+  height: 30px;
+  font-weight: bold;
+  font-size: 15px;
+  background-color: ${(props) => props.theme.BUTTON_COLOR};
+  color: ${(props) => props.theme.LINE_WHITE_COLOR};
+  cursor: pointer;
+  &:hover {
+    background-color: ${(props) => props.theme.BUTTON_COLOR_HOVER};
+  }
+`;
 export const Container = styled.div`
   display: flex;
   width: 100%;
   flex-direction: row;
-  margin-top: 10rem;
+  margin-top: 2.5em;
+  margin-bottom: 5rem;
   justify-content: space-around;
 `;
 export const Tag = styled.div`
@@ -13,20 +28,6 @@ export const Tag = styled.div`
   width: 100%;
   padding-left: 50px;
   margin-top: 10rem;
-  .btn {
-    border-radius: 10px;
-    border: none;
-    width: 100px;
-    height: 30px;
-    font-weight: bold;
-    font-size: 15px;
-    background-color: ${(props) => props.theme.BUTTON_COLOR};
-    color: ${(props) => props.theme.LINE_WHITE_COLOR};
-    cursor: pointer;
-    &:hover {
-      background-color: ${(props) => props.theme.BUTTON_COLOR_HOVER};
-    }
-  }
   .tag-title {
     font-weight: bold;
   }
@@ -50,15 +51,22 @@ export const PostContainer = styled.div`
   flex-direction: column;
   padding-bottom: 20px;
   cursor: pointer;
+
   .post-img {
     width: 500px;
     height: 300px;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
   }
   .post-content {
     display: flex;
     flex-direction: column;
     width: 500px;
     padding-top: 1rem;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
     .post-title {
       font-size: 20px;
       font-weight: bold;
@@ -122,17 +130,23 @@ export const TitleCon = styled.div`
 
 export const PostCon = styled(Container)`
   flex-direction: column;
-  background: var(--bg-element1);
+  background-color: ${(props) => props.theme.WHITE_COLOR};
   border-radius: 4px;
   box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px;
   transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
   overflow: hidden;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
   &:hover {
     transform: translateY(-10px);
   }
   .remove-con {
     padding-left: 30rem;
     padding-bottom: 1rem;
+    @media screen and (max-width: 768px) {
+      width: 80%;
+    }
     button {
       border: none;
       border-radius: 5px;

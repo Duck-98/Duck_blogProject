@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { all, delay, fork, put, takeLatest, throttle, call } from 'redux-saga/effects';
+import { all, fork, put, takeLatest, throttle, call } from 'redux-saga/effects';
 import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
-  generateDummyPost,
   LOAD_HASHTAG_POSTS_REQUEST,
   LOAD_HASHTAG_POSTS_FAILURE,
   LOAD_HASHTAG_POSTS_SUCCESS,

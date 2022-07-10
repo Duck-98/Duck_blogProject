@@ -6,8 +6,7 @@ import Footer from './Footer';
 
 const Main = styled.main`
   height: auto;
-  min-height: 100%;
-  padding-bottom: 150px;
+  min-height: 100vh;
 `;
 
 const Layout = (props) => (

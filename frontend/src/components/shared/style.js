@@ -88,8 +88,14 @@ export const NavbarBox = styled.div`
 
 export const Foot = styled.footer`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: flex-start;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
   .title {
     font-size: 40px;
     margin-bottom: 10px;
@@ -120,4 +126,10 @@ export const Foot = styled.footer`
       font-size: 1rem;
     }
   }
+`;
+
+export const FooterStyle = styled.footer`
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
 `;

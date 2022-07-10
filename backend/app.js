@@ -86,6 +86,14 @@ app.use('/posts', postsRouter);
 app.use('/post', postRouter);
 app.use('/user', userRouter);
 app.use('/hashtag', hashtagRouter);
+
+// 배포용
 app.listen(80, () => {
   console.log('서버실행중');
 });
+
+// 개발용
+/*
+app.listen(3065, () => {
+  console.log('서버실행중');
+});*/

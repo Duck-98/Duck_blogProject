@@ -1,17 +1,31 @@
 import styled from 'styled-components';
-import { SubContainer } from '../intro/style';
 
-export const ProjectCon = styled.div`
+export const Container = styled.div`
   display: flex;
-  padding-top: 10rem;
   flex-direction: column;
-  padding-top: 2rem;
-  margin-left: 3rem;
-  .title {
+  justify-content: center;
+  padding-top: 5rem;
+  padding-bottom: 2.5rem;
+  @media screen and (max-width: 768px) {
+    width: 100%;
   }
+`;
+
+export const SubContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
   .card-con {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 600px;
+    @media screen and (max-width: 768px) {
+      width: 300px;
+    }
   }
   .con {
     font-size: 25px;
@@ -23,12 +37,20 @@ export const ProjectCon = styled.div`
 export const Card = styled.div`
   display: flex;
   flex-direction: column;
-  padding-right: 2rem;
+  align-items: center;
+  text-align: center;
+  width: 300px;
   cursor: pointer;
+  padding-bottom: 1rem;
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px;
+  transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
+  overflow: hidden;
   .img {
     width: 200px;
     height: 200px;
     margin-bottom: 30px;
+    margin: 0 auto;
     img {
       width: 200px;
       height: 200px;
@@ -37,8 +59,14 @@ export const Card = styled.div`
       }
     }
   }
-  span {
-    font-size: 20px;
+  .content {
+    padding-top: 1rem;
+    span {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.011em;
+      font-family: 'SF Pro Display', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    }
   }
   a {
     color: black;

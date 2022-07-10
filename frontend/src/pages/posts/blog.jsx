@@ -10,16 +10,18 @@ import Link from 'next/link';
 import { LOAD_POST_REQUEST } from '../../reducers/post';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import PropTypes from 'prop-types';
-import { Tag } from '../../components/post/style';
+import { PostBtn, Tag } from '../../components/post/style';
 import PostCardTag from '../../components/post/PostCardTag';
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-
   .tag {
     display: flex;
     width: 20%;
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
     .tag-con {
       position: fixed;
     }
@@ -28,9 +30,24 @@ const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     width: 1200px;
-    justify-content: flex-start;
+    justify-content: space-evenly;
+    margin-bottom: 10rem;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
     .item-con {
-      padding-right: 2rem;
+      @media screen and (max-width: 768px) {
+        width: 95%;
+      }
+    }
+    .post-btn {
+      display: none;
+      @media screen and (max-width: 768px) {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        padding-top: 3rem;
+      }
     }
   }
 `;
@@ -58,20 +75,6 @@ const Blog = ({ post }) => {
     };
   }, [hasMorePost, loadPostLoading, mainPosts]);
 
-  /*
-  const onClick = (id, title) => {
-    router.push(
-      {
-        pathname: `/posts/${id}`,
-        query: {
-          title,
-        },
-      },
-      `/posts/${id}`,
-    );
-    console.log(id, title);
-  };
-*/
   return (
     <Container>
       <div className="tag">
@@ -86,23 +89,21 @@ const Blog = ({ post }) => {
             <div className="btn-container">
               {me ? (
                 <Link href="/posts/blogWrite">
-                  <button className="btn">글쓰기</button>
+                  <PostBtn className="btn">글쓰기</PostBtn>
                 </Link>
               ) : (
-                <button
-                  className="btn"
-                  onClick={() => {
-                    alert('로그인해주세요.');
-                  }}
-                >
-                  글쓰기
-                </button>
+                <></>
               )}
             </div>
           </Tag>
         </div>
       </div>
       <div className="list">
+        <div className="post-btn">
+          <Link href="/posts/blogWrite">
+            <PostBtn className="btn">글쓰기</PostBtn>
+          </Link>
+        </div>
         {mainPosts.map((post) => (
           <Link
             href={

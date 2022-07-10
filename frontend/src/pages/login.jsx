@@ -8,7 +8,7 @@ import { loginRequestAction } from '../reducers/user';
 
 const Register = () => {
   const dispatch = useDispatch();
-  const { logInLoading, logInError, logInDone, me } = useSelector((state) => state.user);
+  const { logInError, logInDone } = useSelector((state) => state.user);
   useEffect(() => {
     if (logInError) {
       alert(logInError);
