@@ -6,7 +6,7 @@ import { GiPlasticDuck, GiHamburgerMenu } from 'react-icons/gi';
 import { Nav, A, NavbarBox, HeaderStyle } from './style';
 
 const Header = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   return (
     <HeaderStyle>
