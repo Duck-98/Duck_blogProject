@@ -100,9 +100,13 @@ const Blog = ({ post }) => {
       </div>
       <div className="list">
         <div className="post-btn">
-          <Link href="/posts/blogWrite">
-            <PostBtn className="btn">글쓰기</PostBtn>
-          </Link>
+          {me ? (
+            <Link href="/posts/blogWrite">
+              <PostBtn className="btn">글쓰기</PostBtn>
+            </Link>
+          ) : (
+            <></>
+          )}
         </div>
         {mainPosts.map((post) => (
           <Link
