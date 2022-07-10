@@ -11,7 +11,7 @@ const Projects = () => (
         </div>
         <div className="card-con">
           <Card>
-            <a href="https://www.notion.so/655757b339254095b3567d7faecc071a">
+            <a href="https://miniature-river-6e1.notion.site/d8e2005b146e4f1b9fe5cb4c563f3157">
               <div className="img">
                 <img src="img/갓팅.png" alt="app" />
               </div>
@@ -21,7 +21,7 @@ const Projects = () => (
             </a>
           </Card>
           <Card>
-            <a href="https://www.notion.so/f10de6f0cb2f40d39249c5b402a5f73d">
+            <a href="https://miniature-river-6e1.notion.site/f10de6f0cb2f40d39249c5b402a5f73d">
               <div className="img">
                 <img src="img/mask.png" alt="profile" />
               </div>
@@ -38,7 +38,7 @@ const Projects = () => (
         </div>
         <div className="card-con">
           <Card>
-            <a href="https://www.notion.so/d8e2005b146e4f1b9fe5cb4c563f3157">
+            <a href="https://miniature-river-6e1.notion.site/655757b339254095b3567d7faecc071a">
               <div className="img">
                 <img src="img/taxi.png" alt="profile" />
               </div>
@@ -49,7 +49,7 @@ const Projects = () => (
           </Card>
 
           <Card>
-            <a href="https://www.notion.so/Duck-Blog-3abcb8b528ba47bc8b4d22c4935cfbcc">
+            <a href="https://miniature-river-6e1.notion.site/Duck-Blog-3abcb8b528ba47bc8b4d22c4935cfbcc">
               <div className="img">
                 <img src="img/Duck-Blog.png" alt="profile" />
               </div>
