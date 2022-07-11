@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    'User', // id가 기본적으로 들어가있기 때문에 만들지 않아도 됨.
+    'User',
     {
       email: {
         type: DataTypes.STRING(30),
