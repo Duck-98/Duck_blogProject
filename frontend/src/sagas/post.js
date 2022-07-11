@@ -148,7 +148,7 @@ function* uploadImages(action) {
   }
 }
 function* watchLoadPost() {
-  yield throttle(5000, LOAD_POST_REQUEST, loadPost);
+  yield takeLatest(LOAD_POST_REQUEST, loadPost);
 }
 
 function* watchAddpost() {
