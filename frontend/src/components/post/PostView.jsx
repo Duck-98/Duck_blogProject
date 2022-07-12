@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import { TitleCon } from './style';
 import moment from 'moment';
 import 'moment/locale/ko';
+import PostComment from './PostComment';
 
 const Container = styled.div`
   display: flex;
@@ -40,6 +41,9 @@ const Container = styled.div`
     color: ${(props) => props.theme.LINE_WHITE_COLOR};
     margin-bottom: 3rem;
   }
+  .comment {
+    border-top: 1px solid ${(props) => props.theme.GRAY_COLOR};
+  }
 `;
 
 const PostView = ({ post }) => {
@@ -53,6 +57,9 @@ const PostView = ({ post }) => {
           <span className="time"> {moment(post?.createdAt).calendar()}</span>
           <span className="tag">{post?.tag}</span>
           <Viewer plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]} initialValue={post?.content} />
+          <div className="comment">
+            <PostComment />
+          </div>
         </div>
       </Container>
     </>
