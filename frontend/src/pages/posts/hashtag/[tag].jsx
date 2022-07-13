@@ -10,17 +10,19 @@ import wrapper from '../../../store/configure';
 import { LOAD_HASHTAG_POSTS_REQUEST } from '../../../reducers/post';
 import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
 import PropTypes from 'prop-types';
-import { Tag } from '../../../components/post/style';
+import { Tag, PostBtn } from '../../../components/post/style';
 import PostCardTag from '../../../components/post/PostCardTag';
 import { useInView } from 'react-intersection-observer';
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-
   .tag {
     display: flex;
     width: 20%;
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
     .tag-con {
       position: fixed;
     }
@@ -29,7 +31,25 @@ const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     width: 1200px;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    margin-bottom: 10rem;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+    .item-con {
+      @media screen and (max-width: 768px) {
+        width: 95%;
+      }
+    }
+    .post-btn {
+      display: none;
+      @media screen and (max-width: 768px) {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        padding-top: 3rem;
+      }
+    }
   }
 `;
 
@@ -38,7 +58,7 @@ const HashTag = ({ post }) => {
   const { tag } = router.query;
   const dispatch = useDispatch();
   const { mainPosts, hasMorePost, loadPostLoading } = useSelector((state) => state.post);
-  const { logInDone } = useSelector((state) => state.user);
+  const { me } = useSelector((state) => state.user);
 
   const [ref, inView] = useInView();
 
@@ -77,32 +97,34 @@ const HashTag = ({ post }) => {
               </ul>
             </div>
             <div className="btn-container">
-              {logInDone ? (
+              {me ? (
                 <Link href="/posts/blogWrite">
-                  <button className="btn">글쓰기</button>
+                  <PostBtn className="btn">글쓰기</PostBtn>
                 </Link>
               ) : (
-                <button
-                  className="btn"
-                  onClick={() => {
-                    alert('로그인해주세요.');
-                  }}
-                >
-                  글쓰기
-                </button>
+                <></>
               )}
             </div>
           </Tag>
         </div>
       </div>
       <div className="list">
+        <div className="post-btn">
+          {me ? (
+            <Link href="/posts/blogWrite">
+              <PostBtn className="btn">글쓰기</PostBtn>
+            </Link>
+          ) : (
+            <></>
+          )}
+        </div>
         {mainPosts.map((post) => (
           <Link
             href={
               ({
                 pathname: `/posts/${post.id}`,
                 query: {
-                  id: post.id,
+                  title: post.title,
                 },
               },
               `/posts/${post.id}`)
@@ -110,7 +132,7 @@ const HashTag = ({ post }) => {
             key={post.id}
           >
             <div className="item-con">
-              <PostCard key={post.id} post={post} images={post.Images} onClick={() => onClick(post.id)} />
+              <PostCard key={post.id} post={post} id={post.id} />
             </div>
           </Link>
         ))}
